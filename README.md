@@ -25,10 +25,11 @@ MagicServer/
 │   └── MagicAppBuilder/ # Auto-installed MagicAppBuilder
 ├── config/              # Template and generated config files
 ├── logs/                # Apache and MariaDB logs
+├── index.php            # Default PHP script from server root
 ├── install.php          # Script to download and install MagicAppBuilder
 ├── start.php            # Script to generate config and start the server
 └── stop.php             # Script to stop the server
-````
+```
 
 ## 🚀 Getting Started
 
@@ -37,20 +38,33 @@ MagicServer/
 Extract the MagicServer package to any location, for example:
 
 ```
-D:\Server\MagicServer
+D:\MagicServer
 ```
 
-### 2. Install MagicAppBuilder
+### 2. Open Command Prompt as Administrator
 
-Before running the server, you **must install** MagicAppBuilder. This step downloads the latest version and places it in `www/MagicAppBuilder/`.
+Before running any script, **open Command Prompt (CMD) with Administrator privileges**:
 
-Run the following command:
+1. Click Start Menu → search **"cmd"**
+2. Right-click **Command Prompt** → click **"Run as administrator"**
+3. In Command Prompt, navigate to the server directory:
+
+```bash
+D:
+cd MagicServer
+```
+
+### 3. Install MagicAppBuilder
+
+To download and install the latest version of MagicAppBuilder into `www/MagicAppBuilder/`, run:
 
 ```bash
 php\php.exe install.php
 ```
 
-### 3. Start the Server
+> ⚠️ This step is required before starting the server.
+
+### 4. Start the Server
 
 Start the Apache and MariaDB servers, and regenerate configuration files by running:
 
@@ -60,7 +74,7 @@ php\php.exe start.php
 
 > ℹ️ `start.php` will always regenerate server configuration files based on the current path using templates.
 
-### 4. Access Your Application
+### 5. Access Your Application
 
 Open your browser and go to:
 
@@ -70,7 +84,7 @@ http://localhost/MagicAppBuilder/
 
 You should now see the MagicAppBuilder interface.
 
-### 5. Stop the Server
+### 6. Stop the Server
 
 To stop Apache and MariaDB services, run:
 
