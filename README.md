@@ -6,7 +6,8 @@
 
 - ✔ Portable – no installation required
 - ✔ Zero configuration
-- ✔ Optimized for [MagicAppBuilder](https://github.com/planetbiru/magicappbuilder)
+- ✔ Automatically downloads and installs MagicAppBuilder
+- ✔ Rebuilds server configuration every time the server starts
 - ✔ Includes:
   - Apache HTTP Server
   - PHP
@@ -21,13 +22,13 @@ MagicServer/
 ├── mysql/               # MariaDB binaries and data
 ├── php/                 # PHP runtime
 ├── www/                 # Web root directory (place your app here)
-│   └── MagicAppBuilder/ # Optional: pre-installed MagicAppBuilder
+│   └── MagicAppBuilder/ # Auto-installed MagicAppBuilder
 ├── config/              # Template and generated config files
 ├── logs/                # Apache and MariaDB logs
-├── install.php          # Script to install MagicAppBuilder
-├── start.php            # Script to start the server
+├── install.php          # Script to download and install MagicAppBuilder
+├── start.php            # Script to generate config and start the server
 └── stop.php             # Script to stop the server
-```
+````
 
 ## 🚀 Getting Started
 
@@ -36,14 +37,14 @@ MagicServer/
 Extract the MagicServer package to any location, for example:
 
 ```
-
 D:\Server\MagicServer
+```
 
-````
+### 2. Install MagicAppBuilder
 
-### 2. Install MagicAppBuilder (Optional)
+Before running the server, you **must install** MagicAppBuilder. This step downloads the latest version and places it in `www/MagicAppBuilder/`.
 
-If MagicAppBuilder is not yet installed, you can run:
+Run the following command:
 
 ```bash
 php\php.exe install.php
@@ -51,47 +52,41 @@ php\php.exe install.php
 
 ### 3. Start the Server
 
-Run the server using:
+Start the Apache and MariaDB servers, and regenerate configuration files by running:
 
 ```bash
 php\php.exe start.php
-````
+```
 
-Or double-click `start.php` if associated with PHP CLI.
+> ℹ️ `start.php` will always regenerate server configuration files based on the current path using templates.
 
 ### 4. Access Your Application
 
-Open your browser and navigate to:
-
-```
-http://localhost/
-```
-
-If MagicAppBuilder is installed, it should appear at:
+Open your browser and go to:
 
 ```
 http://localhost/MagicAppBuilder/
 ```
 
+You should now see the MagicAppBuilder interface.
+
 ### 5. Stop the Server
 
-To stop Apache and MariaDB services:
+To stop Apache and MariaDB services, run:
 
 ```bash
 php\php.exe stop.php
 ```
 
-This will set up the necessary files under `www/MagicAppBuilder/`.
-
 ## 🔧 Configuration
 
-You can customize configuration files if needed:
+The server uses template-based configuration. These templates are used to generate final configuration files each time the server starts:
 
 * Apache: `config/httpd-template.conf`
 * PHP: `php/php-template.ini`
 * MariaDB: `mysql/my-template.ini`
 
-The configuration files are automatically adjusted based on the install path.
+> ⚠️ Do **not** manually edit the generated config files. Instead, edit the templates.
 
 ## 🛡️ Default Credentials
 
@@ -106,28 +101,30 @@ The configuration files are automatically adjusted based on the install path.
 
 * Works on Windows 10/11
 * Supports PHP 7.x and 8.x
-* Compatible with MagicAppBuilder 1.12.0+
+* Compatible with MagicAppBuilder **v1.12.0+**
 
 ## 🛠 Tools Included
 
 * **Adminer** — Access via `http://localhost/adminer.php`
-* **PHP CLI** — Run PHP scripts like `start.php`, `install.php`
+* **PHP CLI** — Run PHP scripts like `install.php`, `start.php`, `stop.php`
 * **MariaDB Client** — Accessible via `mysql/bin/mysql.exe`
 
 ## 📜 License
 
-This project is licensed under the [MIT License](LICENSE), except bundled third-party components which are licensed under their respective open-source licenses.
+This project is licensed under the [MIT License](LICENSE), except for bundled third-party components which retain their respective open-source licenses.
 
 ## 🙏 Acknowledgements
 
-MagicServer packages the following open-source software:
+MagicServer bundles the following open-source software:
 
 * [Apache HTTP Server](https://httpd.apache.org/)
 * [PHP](https://www.php.net/)
 * [MariaDB](https://mariadb.org/)
+* [Adminer](https://www.adminer.org/)
 * [MagicAppBuilder](https://github.com/planetbiru/magicappbuilder)
 
 ---
 
 Happy developing with **MagicAppBuilder**! 🚀
+
 
