@@ -5,7 +5,24 @@ require_once __DIR__ . "/stop.php";
 echo "=== MagicAppBuilder Portable Installer ===\n";
 
 $dir = __DIR__ . "/www";
-chmod($dir, 0777);
+if(!file_exists($dir))
+{
+    mkdir($dir, 0777, true);
+}
+else
+{
+    chmod($dir, 0777);
+}
+
+$dir = __DIR__ . "/sessions";
+if(!file_exists($dir))
+{
+    mkdir($dir, 0777, true);
+}
+else
+{
+    chmod($dir, 0777);
+}
 
 $path1 = __DIR__ . "/config/httpd-template.conf\"";
 $path2 = __DIR__ . "/config/httpd.conf\"";
