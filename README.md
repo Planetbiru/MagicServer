@@ -2,16 +2,19 @@
 
 **MagicServer** is a lightweight and portable server package that includes **Apache**, **PHP**, and **MariaDB** (MySQL-compatible), pre-configured to run [MagicAppBuilder](https://github.com/planetbiru/magicappbuilder) smoothly on Windows systems.
 
+
 ## ✨ Features
 
-- ✔ Portable – no installation required
-- ✔ Zero configuration
-- ✔ Automatically downloads and installs MagicAppBuilder
-- ✔ Rebuilds server configuration every time the server starts
-- ✔ Includes:
-  - Apache HTTP Server
-  - PHP
-  - MariaDB (MySQL)
+* ✅ **Portable** – no installation required
+* ✅ **Zero configuration**
+* ✅ **Auto-installs MagicAppBuilder**
+* ✅ **Rebuilds server configuration on each startup**
+* ✅ **Includes**:
+
+  * Apache HTTP Server
+  * PHP
+  * MariaDB (MySQL-compatible)
+
 
 ## 📁 Folder Structure
 
@@ -21,7 +24,7 @@ MagicServer/
 ├── config/              # Template files and generated configurations
 ├── data/                # MariaDB data directory
 ├── logs/                # Central log directory (Apache, MariaDB, etc.)
-├── mysql/               # MariaDB binaries and configuration
+├── mysql/               # MariaDB binaries
 ├── php/                 # PHP runtime environment
 ├── sessions/            # PHP session file storage
 ├── tmp/                 # Temporary file directory (e.g., uploads)
@@ -29,16 +32,17 @@ MagicServer/
 │   └── MagicAppBuilder/ # Auto-installed MagicAppBuilder (low-code platform)
 ├── fn.php               # Common PHP utility functions
 ├── index.php            # Default index file (entry point)
-├── install.php          # Installer script to fetch MagicAppBuilder from GitHub
+├── install.php          # Installer script for MagicAppBuilder
 ├── start.php            # Script to generate config and start Apache + MariaDB
 └── stop.php             # Script to stop Apache + MariaDB
 ```
+
 
 ## 🚀 Getting Started
 
 ### 1. Download and Extract
 
-Extract the MagicServer package to any location, for example:
+Extract MagicServer to any location, e.g.:
 
 ```
 D:\MagicServer
@@ -46,36 +50,36 @@ D:\MagicServer
 
 ### 2. Open Command Prompt as Administrator
 
-Before running any script, **open Command Prompt (CMD) with Administrator privileges**:
+> Required to allow Apache and MariaDB to run properly.
 
-1. Click Start Menu → search **"cmd"**
+1. Click Start → search **"cmd"**
 2. Right-click **Command Prompt** → click **"Run as administrator"**
-3. In Command Prompt, navigate to the server directory:
+3. Navigate to the server folder:
 
-```bash
+```bat
 D:
 cd MagicServer
 ```
 
 ### 3. Install MagicAppBuilder
 
-To download and install the latest version of MagicAppBuilder into `www/MagicAppBuilder/`, run:
+Run the following command to download and install the latest version of MagicAppBuilder into `www/MagicAppBuilder/`:
 
-```bash
+```bat
 php\php.exe install.php
 ```
 
-> ⚠️ This step is required before starting the server.
+> ⚠️ Required before the first startup.
 
 ### 4. Start the Server
 
-Start the Apache and MariaDB servers, and regenerate configuration files by running:
+To start Apache and MariaDB and regenerate configurations:
 
-```bash
+```bat
 php\php.exe start.php
 ```
 
-> ℹ️ `start.php` will always regenerate server configuration files based on the current path using templates.
+> ℹ️ Config files are rebuilt automatically based on current folder path.
 
 ### 5. Access Your Application
 
@@ -89,42 +93,49 @@ You should now see the MagicAppBuilder interface.
 
 ### 6. Stop the Server
 
-To stop Apache and MariaDB services, run:
+To stop all services:
 
-```bash
+```bat
 php\php.exe stop.php
 ```
 
+
 ## 🔧 Configuration
 
-The server uses template-based configuration. These templates are used to generate final configuration files each time the server starts:
+The system uses template-based configuration. These are rebuilt each time you run `start.php`.
 
-* Apache: `config/httpd-template.conf`
-* PHP: `php/php-template.ini`
-* MariaDB: `mysql/my-template.ini`
+| Component | Template File                | Generated File      |
+| --------- | ---------------------------- | ------------------- |
+| Apache    | `config/httpd-template.conf` | `config/httpd.conf` |
+| PHP       | `config/php-template.ini`    | `php/php.ini`       |
+| MariaDB   | `config/my-template.ini`     | `config/my.ini`     |
 
-> ⚠️ Do **not** manually edit the generated config files. Instead, edit the templates.
+> 📝 Do **not** edit generated files directly. Modify the template files instead.
+
 
 ## 🛡️ Default Credentials
 
-| Service          | Username        | Password      |
-| ---------------- | --------------- | ------------- |
-| MariaDB          | root            | (no password) |
-| MagicAppBuilder  | administrator   | administrator |
-| Your Application | superuser       | superuser     |
+| Service         | Username        | Password        |
+| --------------- | --------------- | --------------- |
+| MariaDB         | `root`          | *(empty)*       |
+| MagicAppBuilder | `administrator` | `administrator` |
+| Your App        | `superuser`     | `superuser`     |
 
-> 💡 It is strongly recommended to set a password for the root user after setup.
+> 🔐 It is strongly recommended to set a password for the `root` user.
+
 
 ## ⚙️ Compatibility
 
-* Works on Windows 10/11
-* Supports PHP 7.x and 8.x
-* Compatible with MagicAppBuilder **v1.12.0+**
+* ✅ Windows 10 and 11
+* ✅ PHP 7.x and 8.x supported
+* ✅ Works with MagicAppBuilder v1.12.0+
 
-## 🛠 Tools Included
+
+## 🛠 Included Tools
 
 * **PHP CLI** — Run PHP scripts like `install.php`, `start.php`, `stop.php`
 * **MariaDB Client** — Accessible via `mysql/bin/mysql.exe`
+
 
 ## 📜 License
 
@@ -139,8 +150,5 @@ MagicServer bundles the following open-source software:
 * [MariaDB](https://mariadb.org/)
 * [MagicAppBuilder](https://github.com/planetbiru/magicappbuilder)
 
----
 
 Happy developing with **MagicAppBuilder**! 🚀
-
-
