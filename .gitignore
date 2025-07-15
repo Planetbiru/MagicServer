@@ -1,1 +1,3 @@
-www/MagicAppBuilder
+apache/logs/*
+data/*
+www/*
