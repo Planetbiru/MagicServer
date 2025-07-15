@@ -1,6 +1,3 @@
-Berikut adalah versi terbaru dari `README.md` yang telah diperbarui sesuai struktur direktori terbaru:
-
-```markdown
 # MagicServer
 
 **MagicServer** is a lightweight and portable server package that includes **Apache**, **PHP**, and **MariaDB** (MySQL-compatible), pre-configured to run [MagicAppBuilder](https://github.com/planetbiru/magicappbuilder) smoothly on Windows systems.
@@ -135,7 +132,3 @@ MagicServer packages the following open-source software:
 
 Happy developing with **MagicAppBuilder**! 🚀
 
-```
-
-Jika kamu juga ingin disertakan contoh `.bat` atau shortcut launcher Windows, atau ingin README dalam bahasa Indonesia, tinggal beri tahu saja!
-```
