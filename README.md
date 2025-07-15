@@ -106,7 +106,7 @@ The configuration files are automatically adjusted based on the install path.
 
 * Works on Windows 10/11
 * Supports PHP 7.x and 8.x
-* Compatible with MagicAppBuilder v1.10.0+
+* Compatible with MagicAppBuilder 1.12.0+
 
 ## 🛠 Tools Included
 
@@ -125,7 +125,6 @@ MagicServer packages the following open-source software:
 * [Apache HTTP Server](https://httpd.apache.org/)
 * [PHP](https://www.php.net/)
 * [MariaDB](https://mariadb.org/)
-* [Adminer](https://www.adminer.org/)
 * [MagicAppBuilder](https://github.com/planetbiru/magicappbuilder)
 
 ---
