@@ -1,4 +1,7 @@
 <?php
+
+require_once __DIR__ . "/stop.php";
+
 echo "=== MagicAppBuilder Portable Installer ===\n";
 
 $dir = __DIR__ . "/www";
@@ -11,8 +14,14 @@ $conf = str_replace('${INSTALL_DIR}', str_replace("\\", "/", __DIR__), $conf);
 file_put_contents($path2, $conf);
 
 
-$path1 = __DIR__ . "/php/php-template.ini\"";
-$path2 = __DIR__ . "/php/php.ini\"";
+$path1 = __DIR__ . "/php/php-template.ini";
+$path2 = __DIR__ . "/php/php.ini";
+$conf = file_get_contents($path1);
+$conf = str_replace('${INSTALL_DIR}', str_replace("\\", "/", __DIR__), $conf);
+file_put_contents($path2, $conf);
+
+$path1 = __DIR__ . "/mysql/my-template.ini";
+$path2 = __DIR__ . "/mysql/my.ini";
 $conf = file_get_contents($path1);
 $conf = str_replace('${INSTALL_DIR}', str_replace("\\", "/", __DIR__), $conf);
 file_put_contents($path2, $conf);
@@ -59,7 +68,7 @@ if (isPortInUse(3306)) {
 
 // Jalankan MySQL
 echo "Starting MySQL...\n";
-pclose(popen("start /B \"\" \"" . $mysqlBin . "\" --defaults-file=\"" . __DIR__ . "/config/my.ini\"", "r"));
+pclose(popen("start /B \"\" \"" . $mysqlBin . "\" --defaults-file=\"" . __DIR__ . "/config/my.ini", "r"));
 
 // Jalankan Apache
 echo "Starting Apache...\n";
