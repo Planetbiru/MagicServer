@@ -1,22 +1,18 @@
-data/
-apache/logs/
-data/*
-apache/logs/*
-
-# Abaikan semua isi folder /www
+# Ignore all contents of these directories
+/data/
+/apache/logs/
+/tmp/
+/sessions/
 /www/*
 
-/tmp/*
-/sessions/*
-
-# Tapi kecualikan file index.php di dalam /www
+# Except index.php inside /www
 !/www/index.php
 
+# Ignore specific config and ini files
 mysql/my.ini
 php/php.ini
 config/httpd.conf
-php/php.ini
-php/php.ini
-*.log
-config/httpd.conf
 config/my.ini
+
+# Ignore all log files
+*.log
