@@ -12,7 +12,6 @@
   - Apache HTTP Server
   - PHP
   - MariaDB (MySQL)
-  - Adminer for database management
 
 ## 📁 Folder Structure
 
@@ -104,10 +103,11 @@ The server uses template-based configuration. These templates are used to genera
 
 ## 🛡️ Default Credentials
 
-| Service | Username | Password      |
-| ------- | -------- | ------------- |
-| MariaDB | root     | (no password) |
-| Adminer | root     | (no password) |
+| Service          | Username        | Password      |
+| ---------------- | --------------- | ------------- |
+| MariaDB          | root            | (no password) |
+| MagicAppBuilder  | administrator   | administrator |
+| Your Application | superuser       | superuser     |
 
 > 💡 It is strongly recommended to set a password for the root user after setup.
 
@@ -119,7 +119,6 @@ The server uses template-based configuration. These templates are used to genera
 
 ## 🛠 Tools Included
 
-* **Adminer** — Access via `http://localhost/adminer.php`
 * **PHP CLI** — Run PHP scripts like `install.php`, `start.php`, `stop.php`
 * **MariaDB Client** — Accessible via `mysql/bin/mysql.exe`
 
@@ -134,7 +133,6 @@ MagicServer bundles the following open-source software:
 * [Apache HTTP Server](https://httpd.apache.org/)
 * [PHP](https://www.php.net/)
 * [MariaDB](https://mariadb.org/)
-* [Adminer](https://www.adminer.org/)
 * [MagicAppBuilder](https://github.com/planetbiru/magicappbuilder)
 
 ---

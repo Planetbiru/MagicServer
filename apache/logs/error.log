@@ -1,0 +1,88 @@
+AH00558: httpd.exe: Could not reliably determine the server's fully qualified domain name, using fe80::d6b1:209c:1c24:3d99. Set the 'ServerName' directive globally to suppress this message
+[Tue Jul 15 06:35:15.812442 2025] [core:warn] [pid 9688:tid 444] AH00098: pid file D:/Server/apache/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+PHP Warning:  PHP Startup: Unable to load dynamic library 'intl' (tried: D:/Server/php/ext\\intl (The specified module could not be found), D:/Server/php/ext\\php_intl.dll (The specified module could not be found)) in Unknown on line 0
+PHP Warning:  PHP Startup: Unable to load dynamic library 'pgsql' (tried: D:/Server/php/ext\\pgsql (The specified module could not be found), D:/Server/php/ext\\php_pgsql.dll (The operating system cannot run %1)) in Unknown on line 0
+[Tue Jul 15 06:35:23.227855 2025] [mpm_winnt:notice] [pid 9688:tid 444] AH00455: Apache/2.4.64 (Win64) PHP/8.4.10 configured -- resuming normal operations
+[Tue Jul 15 06:35:23.227855 2025] [mpm_winnt:notice] [pid 9688:tid 444] AH00456: Apache Lounge VS17 Server built: Jul  9 2025 15:29:50
+[Tue Jul 15 06:35:23.227855 2025] [core:notice] [pid 9688:tid 444] AH00094: Command line: 'D:\\Server/apache/bin/httpd.exe -d D:/Server/apache -f D:\\Server/config/httpd.conf'
+[Tue Jul 15 06:35:23.238364 2025] [mpm_winnt:notice] [pid 9688:tid 444] AH00418: Parent: Created child process 8456
+AH00558: httpd.exe: Could not reliably determine the server's fully qualified domain name, using fe80::d6b1:209c:1c24:3d99. Set the 'ServerName' directive globally to suppress this message
+AH00558: httpd.exe: Could not reliably determine the server's fully qualified domain name, using fe80::d6b1:209c:1c24:3d99. Set the 'ServerName' directive globally to suppress this message
+PHP Warning:  PHP Startup: Unable to load dynamic library 'intl' (tried: D:/Server/php/ext\\intl (The specified module could not be found), D:/Server/php/ext\\php_intl.dll (The specified module could not be found)) in Unknown on line 0
+PHP Warning:  PHP Startup: Unable to load dynamic library 'pgsql' (tried: D:/Server/php/ext\\pgsql (The specified module could not be found), D:/Server/php/ext\\php_pgsql.dll (The operating system cannot run %1)) in Unknown on line 0
+[Tue Jul 15 06:35:25.270120 2025] [mpm_winnt:notice] [pid 8456:tid 432] AH00354: Child: Starting 64 worker threads.
+AH00558: httpd.exe: Could not reliably determine the server's fully qualified domain name, using fe80::d6b1:209c:1c24:3d99. Set the 'ServerName' directive globally to suppress this message
+[Tue Jul 15 06:35:42.310150 2025] [core:warn] [pid 12372:tid 432] AH00098: pid file D:/Server/apache/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+PHP Warning:  PHP Startup: Unable to load dynamic library 'intl' (tried: D:/Server/php/ext\\intl (The specified module could not be found), D:/Server/php/ext\\php_intl.dll (The specified module could not be found)) in Unknown on line 0
+PHP Warning:  PHP Startup: Unable to load dynamic library 'pgsql' (tried: D:/Server/php/ext\\pgsql (The specified module could not be found), D:/Server/php/ext\\php_pgsql.dll (The operating system cannot run %1)) in Unknown on line 0
+[Tue Jul 15 06:36:08.584453 2025] [mpm_winnt:notice] [pid 12372:tid 432] AH00455: Apache/2.4.64 (Win64) PHP/8.4.10 configured -- resuming normal operations
+[Tue Jul 15 06:36:08.584453 2025] [mpm_winnt:notice] [pid 12372:tid 432] AH00456: Apache Lounge VS17 Server built: Jul  9 2025 15:29:50
+[Tue Jul 15 06:36:08.584453 2025] [core:notice] [pid 12372:tid 432] AH00094: Command line: 'D:\\Server/apache/bin/httpd.exe -d D:/Server/apache -f D:\\Server/config/httpd.conf'
+[Tue Jul 15 06:36:08.596889 2025] [mpm_winnt:notice] [pid 12372:tid 432] AH00418: Parent: Created child process 12344
+AH00558: httpd.exe: Could not reliably determine the server's fully qualified domain name, using fe80::d6b1:209c:1c24:3d99. Set the 'ServerName' directive globally to suppress this message
+AH00558: httpd.exe: Could not reliably determine the server's fully qualified domain name, using fe80::d6b1:209c:1c24:3d99. Set the 'ServerName' directive globally to suppress this message
+PHP Warning:  PHP Startup: Unable to load dynamic library 'intl' (tried: D:/Server/php/ext\\intl (The specified module could not be found), D:/Server/php/ext\\php_intl.dll (The specified module could not be found)) in Unknown on line 0
+PHP Warning:  PHP Startup: Unable to load dynamic library 'pgsql' (tried: D:/Server/php/ext\\pgsql (The specified module could not be found), D:/Server/php/ext\\php_pgsql.dll (The operating system cannot run %1)) in Unknown on line 0
+[Tue Jul 15 06:36:22.361657 2025] [mpm_winnt:notice] [pid 12344:tid 436] AH00354: Child: Starting 64 worker threads.
+AH00558: httpd.exe: Could not reliably determine the server's fully qualified domain name, using fe80::d6b1:209c:1c24:3d99. Set the 'ServerName' directive globally to suppress this message
+[Tue Jul 15 06:36:34.925435 2025] [core:warn] [pid 20784:tid 436] AH00098: pid file D:/Server/apache/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+PHP Warning:  PHP Startup: Unable to load dynamic library 'intl' (tried: D:/Server/php/ext\\intl (The specified module could not be found), D:/Server/php/ext\\php_intl.dll (The specified module could not be found)) in Unknown on line 0
+[Tue Jul 15 06:36:34.983571 2025] [mpm_winnt:notice] [pid 20784:tid 436] AH00455: Apache/2.4.64 (Win64) PHP/8.4.10 configured -- resuming normal operations
+[Tue Jul 15 06:36:34.983571 2025] [mpm_winnt:notice] [pid 20784:tid 436] AH00456: Apache Lounge VS17 Server built: Jul  9 2025 15:29:50
+[Tue Jul 15 06:36:34.983571 2025] [core:notice] [pid 20784:tid 436] AH00094: Command line: 'D:\\Server/apache/bin/httpd.exe -d D:/Server/apache -f D:\\Server/config/httpd.conf'
+[Tue Jul 15 06:36:34.987491 2025] [mpm_winnt:notice] [pid 20784:tid 436] AH00418: Parent: Created child process 8808
+AH00558: httpd.exe: Could not reliably determine the server's fully qualified domain name, using fe80::d6b1:209c:1c24:3d99. Set the 'ServerName' directive globally to suppress this message
+AH00558: httpd.exe: Could not reliably determine the server's fully qualified domain name, using fe80::d6b1:209c:1c24:3d99. Set the 'ServerName' directive globally to suppress this message
+PHP Warning:  PHP Startup: Unable to load dynamic library 'intl' (tried: D:/Server/php/ext\\intl (The specified module could not be found), D:/Server/php/ext\\php_intl.dll (The specified module could not be found)) in Unknown on line 0
+[Tue Jul 15 06:36:35.592316 2025] [mpm_winnt:notice] [pid 8808:tid 432] AH00354: Child: Starting 64 worker threads.
+[Tue Jul 15 06:36:53.958726 2025] [php:notice] [pid 8808:tid 1312] [client 127.0.0.1:55479] SQLSTATE[HY000] [14] unable to open database file, referer: http://localhost/magicappbuilder/
+AH00558: httpd.exe: Could not reliably determine the server's fully qualified domain name, using fe80::d6b1:209c:1c24:3d99. Set the 'ServerName' directive globally to suppress this message
+[Tue Jul 15 06:44:51.729122 2025] [core:warn] [pid 18064:tid 428] AH00098: pid file D:/Server/apache/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+PHP Warning:  PHP Startup: Unable to load dynamic library 'intl' (tried: D:/Server/php/ext\\intl (The specified module could not be found), D:/Server/php/ext\\php_intl.dll (The specified module could not be found)) in Unknown on line 0
+[Tue Jul 15 06:44:51.791328 2025] [mpm_winnt:notice] [pid 18064:tid 428] AH00455: Apache/2.4.64 (Win64) PHP/8.4.10 configured -- resuming normal operations
+[Tue Jul 15 06:44:51.791328 2025] [mpm_winnt:notice] [pid 18064:tid 428] AH00456: Apache Lounge VS17 Server built: Jul  9 2025 15:29:50
+[Tue Jul 15 06:44:51.791328 2025] [core:notice] [pid 18064:tid 428] AH00094: Command line: 'D:\\Server/apache/bin/httpd.exe -d D:/Server/apache -f D:\\Server/config/httpd.conf'
+[Tue Jul 15 06:44:51.797361 2025] [mpm_winnt:notice] [pid 18064:tid 428] AH00418: Parent: Created child process 12880
+AH00558: httpd.exe: Could not reliably determine the server's fully qualified domain name, using fe80::d6b1:209c:1c24:3d99. Set the 'ServerName' directive globally to suppress this message
+AH00558: httpd.exe: Could not reliably determine the server's fully qualified domain name, using fe80::d6b1:209c:1c24:3d99. Set the 'ServerName' directive globally to suppress this message
+PHP Warning:  PHP Startup: Unable to load dynamic library 'intl' (tried: D:/Server/php/ext\\intl (The specified module could not be found), D:/Server/php/ext\\php_intl.dll (The specified module could not be found)) in Unknown on line 0
+[Tue Jul 15 06:44:52.443555 2025] [mpm_winnt:notice] [pid 12880:tid 456] AH00354: Child: Starting 64 worker threads.
+[Tue Jul 15 06:44:55.193648 2025] [php:notice] [pid 12880:tid 1312] [client 127.0.0.1:55543] SQLSTATE[HY000] [14] unable to open database file, referer: http://localhost/magicappbuilder/
+[Tue Jul 15 06:44:58.717318 2025] [php:notice] [pid 12880:tid 1332] [client 127.0.0.1:55538] SQLSTATE[HY000] [14] unable to open database file, referer: http://localhost/magicappbuilder/
+No composer.lock file present. Updating dependencies to latest instead of installing from lock file. See https://getcomposer.org/install for more information.
+Loading composer repositories with package information
+Updating dependencies
+Lock file operations: 2 installs, 0 updates, 0 removals
+  - Locking planetbiru/magic-app (3.15.0)
+  - Locking planetbiru/magic-object (3.14.6)
+Writing lock file
+Installing dependencies from lock file
+Package operations: 2 installs, 0 updates, 0 removals
+    0 [>---------------------------]    0 [>---------------------------]
+  - Installing planetbiru/magic-object (3.14.6): Extracting archive
+  - Installing planetbiru/magic-app (3.15.0): Extracting archive
+ 0/1 [>---------------------------]   0%
+ 1/1 [============================] 100%
+Generating autoload files
+AH00558: httpd.exe: Could not reliably determine the server's fully qualified domain name, using fe80::d6b1:209c:1c24:3d99. Set the 'ServerName' directive globally to suppress this message
+[Tue Jul 15 06:47:39.157720 2025] [core:warn] [pid 20220:tid 432] AH00098: pid file D:/Server/apache/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+PHP Warning:  PHP Startup: Unable to load dynamic library 'intl' (tried: D:/Server/php/ext\\intl (The specified module could not be found), D:/Server/php/ext\\php_intl.dll (The specified module could not be found)) in Unknown on line 0
+[Tue Jul 15 06:47:39.226027 2025] [mpm_winnt:notice] [pid 20220:tid 432] AH00455: Apache/2.4.64 (Win64) PHP/8.4.10 configured -- resuming normal operations
+[Tue Jul 15 06:47:39.226027 2025] [mpm_winnt:notice] [pid 20220:tid 432] AH00456: Apache Lounge VS17 Server built: Jul  9 2025 15:29:50
+[Tue Jul 15 06:47:39.226027 2025] [core:notice] [pid 20220:tid 432] AH00094: Command line: 'D:\\Server/apache/bin/httpd.exe -d D:/Server/apache -f D:\\Server/config/httpd.conf'
+[Tue Jul 15 06:47:39.230050 2025] [mpm_winnt:notice] [pid 20220:tid 432] AH00418: Parent: Created child process 2660
+AH00558: httpd.exe: Could not reliably determine the server's fully qualified domain name, using fe80::d6b1:209c:1c24:3d99. Set the 'ServerName' directive globally to suppress this message
+AH00558: httpd.exe: Could not reliably determine the server's fully qualified domain name, using fe80::d6b1:209c:1c24:3d99. Set the 'ServerName' directive globally to suppress this message
+PHP Warning:  PHP Startup: Unable to load dynamic library 'intl' (tried: D:/Server/php/ext\\intl (The specified module could not be found), D:/Server/php/ext\\php_intl.dll (The specified module could not be found)) in Unknown on line 0
+[Tue Jul 15 06:47:39.884219 2025] [mpm_winnt:notice] [pid 2660:tid 484] AH00354: Child: Starting 64 worker threads.
+AH00558: httpd.exe: Could not reliably determine the server's fully qualified domain name, using fe80::d6b1:209c:1c24:3d99. Set the 'ServerName' directive globally to suppress this message
+[Tue Jul 15 06:48:08.906798 2025] [core:warn] [pid 7872:tid 456] AH00098: pid file D:/Server/apache/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+PHP Warning:  PHP Startup: Unable to load dynamic library 'intl' (tried: D:/Server/php/ext\\intl (The specified module could not be found), D:/Server/php/ext\\php_intl.dll (The specified module could not be found)) in Unknown on line 0
+[Tue Jul 15 06:48:09.001062 2025] [mpm_winnt:notice] [pid 7872:tid 456] AH00455: Apache/2.4.64 (Win64) PHP/8.4.10 configured -- resuming normal operations
+[Tue Jul 15 06:48:09.001062 2025] [mpm_winnt:notice] [pid 7872:tid 456] AH00456: Apache Lounge VS17 Server built: Jul  9 2025 15:29:50
+[Tue Jul 15 06:48:09.001062 2025] [core:notice] [pid 7872:tid 456] AH00094: Command line: 'D:\\Server/apache/bin/httpd.exe -d D:/Server/apache -f D:\\Server/config/httpd.conf'
+[Tue Jul 15 06:48:09.010072 2025] [mpm_winnt:notice] [pid 7872:tid 456] AH00418: Parent: Created child process 22264
+AH00558: httpd.exe: Could not reliably determine the server's fully qualified domain name, using fe80::d6b1:209c:1c24:3d99. Set the 'ServerName' directive globally to suppress this message
+AH00558: httpd.exe: Could not reliably determine the server's fully qualified domain name, using fe80::d6b1:209c:1c24:3d99. Set the 'ServerName' directive globally to suppress this message
+PHP Warning:  PHP Startup: Unable to load dynamic library 'intl' (tried: D:/Server/php/ext\\intl (The specified module could not be found), D:/Server/php/ext\\php_intl.dll (The specified module could not be found)) in Unknown on line 0
+[Tue Jul 15 06:48:10.516693 2025] [mpm_winnt:notice] [pid 22264:tid 464] AH00354: Child: Starting 64 worker threads.
