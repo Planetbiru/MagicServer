@@ -17,3 +17,6 @@ php/php.ini
 config/httpd.conf
 php/php.ini
 php/php.ini
+*.log
+config/httpd.conf
+config/my.ini

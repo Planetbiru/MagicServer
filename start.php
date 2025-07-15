@@ -1,53 +1,35 @@
 <?php
 
+require_once __DIR__ . "/fn.php";
 require_once __DIR__ . "/stop.php";
 
+putenv("PATH=" . __DIR__ . "/php;" . __DIR__ . "/php/ext;" . getenv("PATH"));
+
+$newPathToAdd = __DIR__ . "/php/bin";
+//addPathToEnvironment($newPathToAdd);
+$newPathToAdd = __DIR__ . "/mysql/bin";
+//addPathToEnvironment($newPathToAdd);
+
+// Ensure necessary directories
+ensureDirectory(__DIR__ . "/www");
+ensureDirectory(__DIR__ . "/tmp");
+ensureDirectory(__DIR__ . "/data");
+ensureDirectory(__DIR__ . "/logs");
+ensureDirectory(__DIR__ . "/sessions");
+ensureDirectory(__DIR__ . "/apache/logs");
+
+
+// Replace config templates
+replaceAndWrite(__DIR__ . "/config/httpd-template.conf", __DIR__ . "/config/httpd.conf");
+replaceAndWrite(__DIR__ . "/config/php-template.ini", __DIR__ . "/php/php.ini");
+replaceAndWrite(__DIR__ . "/config/my-template.ini", __DIR__ . "/config/my.ini");
+
+
 echo "=== MagicAppBuilder Portable Installer ===\n";
-
-$dir = __DIR__ . "/www";
-if(!file_exists($dir))
-{
-    mkdir($dir, 0777, true);
-}
-else
-{
-    chmod($dir, 0777);
-}
-
-$dir = __DIR__ . "/sessions";
-if(!file_exists($dir))
-{
-    mkdir($dir, 0777, true);
-}
-else
-{
-    chmod($dir, 0777);
-}
-
-$path1 = __DIR__ . "/config/httpd-template.conf\"";
-$path2 = __DIR__ . "/config/httpd.conf\"";
-$conf = file_get_contents($path1);
-$conf = str_replace('${INSTALL_DIR}', str_replace("\\", "/", __DIR__), $conf);
-file_put_contents($path2, $conf);
-
-
-$path1 = __DIR__ . "/php/php-template.ini";
-$path2 = __DIR__ . "/php/php.ini";
-$conf = file_get_contents($path1);
-$conf = str_replace('${INSTALL_DIR}', str_replace("\\", "/", __DIR__), $conf);
-file_put_contents($path2, $conf);
-
-$path1 = __DIR__ . "/mysql/my-template.ini";
-$path2 = __DIR__ . "/mysql/my.ini";
-$conf = file_get_contents($path1);
-$conf = str_replace('${INSTALL_DIR}', str_replace("\\", "/", __DIR__), $conf);
-file_put_contents($path2, $conf);
-
 
 // Set path
 $apacheBin = __DIR__ . "/apache/bin/httpd.exe";
 $mysqlBin = __DIR__ . "/mysql/bin/mysqld.exe";
-$phpIni = __DIR__ . "/php/php.ini";
 
 // Cek dependensi
 if (!file_exists($apacheBin)) {
@@ -77,9 +59,6 @@ if (isPortInUse(80)) {
 if (isPortInUse(3306)) {
     echo "[WARNING] Port 3306 already in use.\n";
 }
-
-
-
 
 
 

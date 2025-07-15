@@ -1,10 +1,26 @@
 <?php
+
+require_once __DIR__ . "/fn.php";
+
 /**
  * install.php
  * 
  * Script to download and extract the latest release of MagicAppBuilder
  * from GitHub into the www/MagicAppBuilder directory.
  */
+
+
+// Ensure necessary directories
+ensureDirectory(__DIR__ . "/www");
+ensureDirectory(__DIR__ . "/data");
+ensureDirectory(__DIR__ . "/sessions");
+ensureDirectory(__DIR__ . "/apache/logs");
+
+
+// Replace config templates
+replaceAndWrite(__DIR__ . "/config/httpd-template.conf", __DIR__ . "/config/httpd.conf");
+replaceAndWrite(__DIR__ . "/config/php-template.ini", __DIR__ . "/php/php.ini");
+replaceAndWrite(__DIR__ . "/config/my-template.ini", __DIR__ . "/mysql/my.ini");
 
 $apiUrl = 'https://api.github.com/repos/planetbiru/magicappbuilder/releases/latest';
 $targetZip = __DIR__ . '/magicappbuilder.zip';
