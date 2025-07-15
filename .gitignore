@@ -1,6 +1,10 @@
 data/
-www/
 apache/logs/
 data/*
-www/*
 apache/logs/*
+
+# Abaikan semua isi folder /www
+/www/*
+
+# Tapi kecualikan file index.php di dalam /www
+!/www/index.php
