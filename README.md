@@ -18,8 +18,7 @@ Berikut adalah versi terbaru dari `README.md` yang telah diperbarui sesuai struk
 
 ## 📁 Folder Structure
 
-```
-
+```txt
 MagicServer/
 ├── apache/              # Apache HTTP Server binaries and configs
 ├── mysql/               # MariaDB binaries and data
@@ -31,7 +30,6 @@ MagicServer/
 ├── install.php          # Script to install MagicAppBuilder
 ├── start.php            # Script to start the server
 └── stop.php             # Script to stop the server
-
 ```
 
 ## 🚀 Getting Started
