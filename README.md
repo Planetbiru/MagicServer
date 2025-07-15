@@ -46,7 +46,7 @@ D:\Server\MagicServer
 Run the server using:
 
 ```bash
-php start.php
+php\php.exe start.php
 ````
 
 Or double-click `start.php` if associated with PHP CLI.
@@ -70,7 +70,7 @@ http://localhost/MagicAppBuilder/
 To stop Apache and MariaDB services:
 
 ```bash
-php stop.php
+php\php.exe stop.php
 ```
 
 ### 5. Install MagicAppBuilder (Optional)
@@ -78,7 +78,7 @@ php stop.php
 If MagicAppBuilder is not yet installed, you can run:
 
 ```bash
-php install.php
+php\php.exe install.php
 ```
 
 This will set up the necessary files under `www/MagicAppBuilder/`.
