@@ -16,3 +16,5 @@ config/my.ini
 
 # Ignore all log files
 *.log
+config/httpd.conf
+config/my.ini
