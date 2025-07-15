@@ -17,17 +17,21 @@
 
 ```txt
 MagicServer/
-├── apache/              # Apache HTTP Server binaries and configs
-├── mysql/               # MariaDB binaries and data
-├── php/                 # PHP runtime
-├── www/                 # Web root directory (place your app here)
-│   └── MagicAppBuilder/ # Auto-installed MagicAppBuilder
-├── config/              # Template and generated config files
-├── logs/                # Apache and MariaDB logs
-├── index.php            # Default PHP script from server root
-├── install.php          # Script to download and install MagicAppBuilder
-├── start.php            # Script to generate config and start the server
-└── stop.php             # Script to stop the server
+├── apache/              # Apache HTTP Server binaries and configurations
+├── config/              # Template files and generated configurations
+├── data/                # MariaDB data directory
+├── logs/                # Central log directory (Apache, MariaDB, etc.)
+├── mysql/               # MariaDB binaries and configuration
+├── php/                 # PHP runtime environment
+├── sessions/            # PHP session file storage
+├── tmp/                 # Temporary file directory (e.g., uploads)
+├── www/                 # Web root directory (host your app here)
+│   └── MagicAppBuilder/ # Auto-installed MagicAppBuilder (low-code platform)
+├── fn.php               # Common PHP utility functions
+├── index.php            # Default index file (entry point)
+├── install.php          # Installer script to fetch MagicAppBuilder from GitHub
+├── start.php            # Script to generate config and start Apache + MariaDB
+└── stop.php             # Script to stop Apache + MariaDB
 ```
 
 ## 🚀 Getting Started

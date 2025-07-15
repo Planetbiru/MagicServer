@@ -88,7 +88,7 @@ function stopProcessByName($name)
 {
     echo "Stopping $name...\n";
     $output = [];
-    exec("taskkill /im $name /F", $output);
+    exec("taskkill /F /IM $name", $output);
     exec("tasklist /FI \"IMAGENAME eq $name\" 2>NUL", $output);
 
     if (count($output) <= 1) {
