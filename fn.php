@@ -3,7 +3,7 @@
 /**
  * Ensure a directory exists and has 0777 permissions.
  *
- * @param string $path
+ * @param string $path The path of the directory to ensure.
  */
 function ensureDirectory($path)
 {
@@ -15,10 +15,11 @@ function ensureDirectory($path)
 }
 
 /**
- * Replace placeholder in a template file and write to destination.
+ * Replace the ${INSTALL_DIR} placeholder in a template file and
+ * write the result to the given output path.
  *
- * @param string $templatePath
- * @param string $outputPath
+ * @param string $templatePath The source template file.
+ * @param string $outputPath   The destination output file.
  */
 function replaceAndWrite($templatePath, $outputPath)
 {
@@ -44,7 +45,7 @@ function addPathToEnvironment($newPath)
         $separator = ';';
         $commandPrefix = 'setx PATH ';
     } else {
-        // Unix/Linux/macOS
+        // Unix/Linux/macOS system
         $currentPath = getenv('PATH');
         $separator = ':';
     }
@@ -72,7 +73,7 @@ function addPathToEnvironment($newPath)
             echo "Failed to update PATH. You may need to run this script as administrator.\n";
         }
     } else {
-        // For Unix/Linux, suggest user to manually update ~/.bashrc or ~/.zshrc
+        // For Unix/Linux, suggest user to manually update shell profile
         echo "To update your PATH, add the following to your shell profile:\n";
         echo 'export PATH="$PATH:' . $newPath . '"' . "\n";
     }
@@ -83,12 +84,13 @@ function addPathToEnvironment($newPath)
  *
  * @param string $name The process executable name (e.g., "notepad.exe").
  */
-function stopProcessByName($name) {
+function stopProcessByName($name)
+{
     echo "Stopping $name...\n";
     $output = [];
     exec("taskkill /im $name /F", $output);
     exec("tasklist /FI \"IMAGENAME eq $name\" 2>NUL", $output);
-    
+
     if (count($output) <= 1) {
         echo "  [INFO] $name is not running.\n";
         return;
@@ -96,10 +98,93 @@ function stopProcessByName($name) {
 
     // Kill all processes with this name
     exec("taskkill /F /IM $name", $result, $exitCode);
-    
+
     if ($exitCode === 0) {
         echo "  [OK] $name stopped successfully.\n";
     } else {
         echo "  [ERROR] Failed to stop $name.\n";
     }
+}
+
+/**
+ * Deletes a folder and all its contents.
+ *
+ * @param string $path The directory to delete.
+ */
+function deleteFolder($path)
+{
+    if (!file_exists($path)) {
+        return;
+    }
+
+    $items = new RecursiveIteratorIterator(
+        new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS),
+        RecursiveIteratorIterator::CHILD_FIRST
+    );
+
+    foreach ($items as $item) {
+        $item->isDir()
+            ? rmdir($item->getRealPath())
+            : unlink($item->getRealPath());
+    }
+
+    rmdir($path);
+}
+
+/**
+ * Fetch JSON data from a given URL (with SSL verification disabled).
+ *
+ * @param string $url The URL to fetch.
+ * @return array|null The parsed JSON response, or null on failure.
+ */
+function fetchJson($url)
+{
+    $ch = curl_init($url);
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_USERAGENT => 'MagicServerInstaller/1.0',
+        CURLOPT_HTTPHEADER => ['Accept: application/vnd.github.v3+json'],
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_CONNECTTIMEOUT => 10,
+        CURLOPT_TIMEOUT => 20,
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_SSL_VERIFYHOST => false
+    ]);
+
+    $result = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $err = curl_error($ch);
+    curl_close($ch);
+
+    if ($httpCode !== 200 || !$result) {
+        echo "❌ Failed to fetch JSON. HTTP Code: $httpCode\n";
+        if ($err) {
+            echo "cURL Error: $err\n";
+        }
+        return null;
+    }
+
+    return json_decode($result, true);
+}
+
+/**
+ * Fetch a binary stream from the given URL.
+ *
+ * @param string $url The URL to fetch.
+ * @return string|false The downloaded data, or false on failure.
+ */
+function fetchStream($url)
+{
+    $ch = curl_init($url);
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_USERAGENT => 'MagicServerInstaller/1.0',
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_SSL_VERIFYHOST => false
+    ]);
+
+    $data = curl_exec($ch);
+    curl_close($ch);
+    return $data;
 }

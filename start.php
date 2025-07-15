@@ -3,12 +3,26 @@
 require_once __DIR__ . "/fn.php";
 require_once __DIR__ . "/stop.php";
 
-putenv("PATH=" . __DIR__ . "/php;" . __DIR__ . "/php/ext;" . getenv("PATH"));
+$phpPath     = __DIR__ . '/php';
+$phpExtPath  = __DIR__ . '/php/ext';
+$currentPath = getenv('PATH');
+
+$paths = explode(PATH_SEPARATOR, $currentPath);
+
+// Tambahkan hanya jika belum ada
+if (!in_array($phpPath, $paths)) {
+    $paths[] = $phpPath;
+}
+if (!in_array($phpExtPath, $paths)) {
+    $paths[] = $phpExtPath;
+}
+
+// Gabungkan kembali dan set PATH
+putenv('PATH=' . implode(PATH_SEPARATOR, $paths));
+
 
 $newPathToAdd = __DIR__ . "/php/bin";
-//addPathToEnvironment($newPathToAdd);
 $newPathToAdd = __DIR__ . "/mysql/bin";
-//addPathToEnvironment($newPathToAdd);
 
 // Ensure necessary directories
 ensureDirectory(__DIR__ . "/www");

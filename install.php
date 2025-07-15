@@ -9,6 +9,23 @@ require_once __DIR__ . "/fn.php";
  * from GitHub into the www/MagicAppBuilder directory.
  */
 
+$phpPath     = __DIR__ . '/php';
+$phpExtPath  = __DIR__ . '/php/ext';
+$currentPath = getenv('PATH');
+
+$paths = explode(PATH_SEPARATOR, $currentPath);
+
+// Add only if not already present
+if (!in_array($phpPath, $paths)) {
+    $paths[] = $phpPath;
+}
+if (!in_array($phpExtPath, $paths)) {
+    $paths[] = $phpExtPath;
+}
+
+// Rebuild and set the new PATH
+putenv('PATH=' . implode(PATH_SEPARATOR, $paths));
+
 
 // Ensure necessary directories
 ensureDirectory(__DIR__ . "/www");
@@ -28,20 +45,20 @@ $extractTo = __DIR__ . '/www/MagicAppBuilder';
 
 echo "=== MagicAppBuilder Installer ===\n";
 
-// Buat folder www jika belum ada
+// Create www folder if it doesn't exist
 if (!is_dir(__DIR__ . '/www')) {
     mkdir(__DIR__ . '/www', 0777, true);
 } else {
     chmod(__DIR__ . '/www', 0777);
 }
 
-// Hapus folder MagicAppBuilder lama jika ada
+// Remove old MagicAppBuilder folder if it exists
 if (is_dir($extractTo)) {
     echo "Removing old MagicAppBuilder directory...\n";
     deleteFolder($extractTo);
 }
 
-// Ambil info rilis terbaru dari GitHub
+// Fetch latest release info from GitHub
 echo "Fetching latest release info from GitHub...\n";
 $releaseInfo = fetchJson($apiUrl);
 
@@ -59,24 +76,24 @@ if (!file_exists($targetZip)) {
     exit(1);
 }
 
-// Ekstrak ZIP secara manual ke www/MagicAppBuilder
+// Manually extract ZIP to www/MagicAppBuilder
 echo "Extracting files manually...\n";
 $zip = new ZipArchive();
 if ($zip->open($targetZip) === true) {
     mkdir($extractTo, 0777, true);
 
-    // Prefix folder dari GitHub zipball (e.g. 'planetbiru-magicappbuilder-abc123/')
+    // GitHub zipball folder prefix (e.g., 'planetbiru-magicappbuilder-abc123/')
     $firstDir = null;
 
     for ($i = 0; $i < $zip->numFiles; $i++) {
         $entry = $zip->getNameIndex($i);
 
         if (!$firstDir) {
-            // Ambil prefix folder utama dari file pertama
+            // Get root folder prefix from first file
             $firstDir = strtok($entry, '/');
         }
 
-        // Hilangkan prefix folder
+        // Remove the root folder prefix
         $relativePath = preg_replace('#^' . preg_quote($firstDir, '#') . '/#', '', $entry);
         if ($relativePath === '') continue;
 
@@ -106,65 +123,4 @@ if ($zip->open($targetZip) === true) {
     echo "❌ Failed to open zip archive.\n";
     unlink($targetZip);
     exit(1);
-}
-
-/**
- * Menghapus folder dan seluruh isinya
- */
-function deleteFolder($path) {
-    if (!file_exists($path)) return;
-    $items = new RecursiveIteratorIterator(
-        new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS),
-        RecursiveIteratorIterator::CHILD_FIRST
-    );
-    foreach ($items as $item) {
-        $item->isDir() ? rmdir($item->getRealPath()) : unlink($item->getRealPath());
-    }
-    rmdir($path);
-}
-
-/**
- * Fetch JSON dari GitHub API (tanpa SSL verify)
- */
-function fetchJson($url) {
-    $ch = curl_init($url);
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_USERAGENT => 'MagicServerInstaller/1.0',
-        CURLOPT_HTTPHEADER => ['Accept: application/vnd.github.v3+json'],
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_CONNECTTIMEOUT => 10,
-        CURLOPT_TIMEOUT => 20,
-        CURLOPT_SSL_VERIFYPEER => false,
-        CURLOPT_SSL_VERIFYHOST => false
-    ]);
-    $result = curl_exec($ch);
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    $err = curl_error($ch);
-    curl_close($ch);
-
-    if ($httpCode !== 200 || !$result) {
-        echo "❌ Failed to fetch JSON. HTTP Code: $httpCode\n";
-        if ($err) echo "cURL Error: $err\n";
-        return null;
-    }
-
-    return json_decode($result, true);
-}
-
-/**
- * Fetch binary stream dari URL
- */
-function fetchStream($url) {
-    $ch = curl_init($url);
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_USERAGENT => 'MagicServerInstaller/1.0',
-        CURLOPT_SSL_VERIFYPEER => false,
-        CURLOPT_SSL_VERIFYHOST => false
-    ]);
-    $data = curl_exec($ch);
-    curl_close($ch);
-    return $data;
 }
