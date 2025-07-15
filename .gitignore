@@ -1,3 +1,6 @@
+data/
+www/
+apache/logs/
 data/*
 www/*
 apache/logs/*
