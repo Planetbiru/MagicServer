@@ -8,4 +8,7 @@ apache/logs/*
 
 # Tapi kecualikan file index.php di dalam /www
 !/www/index.php
+
 mysql/my.ini
+php/php.ini
+config/httpd.conf
