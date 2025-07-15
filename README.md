@@ -41,7 +41,15 @@ D:\Server\MagicServer
 
 ````
 
-### 2. Start the Server
+### 2. Install MagicAppBuilder (Optional)
+
+If MagicAppBuilder is not yet installed, you can run:
+
+```bash
+php\php.exe install.php
+```
+
+### 3. Start the Server
 
 Run the server using:
 
@@ -51,7 +59,7 @@ php\php.exe start.php
 
 Or double-click `start.php` if associated with PHP CLI.
 
-### 3. Access Your Application
+### 4. Access Your Application
 
 Open your browser and navigate to:
 
@@ -65,20 +73,12 @@ If MagicAppBuilder is installed, it should appear at:
 http://localhost/MagicAppBuilder/
 ```
 
-### 4. Stop the Server
+### 5. Stop the Server
 
 To stop Apache and MariaDB services:
 
 ```bash
 php\php.exe stop.php
-```
-
-### 5. Install MagicAppBuilder (Optional)
-
-If MagicAppBuilder is not yet installed, you can run:
-
-```bash
-php\php.exe install.php
 ```
 
 This will set up the necessary files under `www/MagicAppBuilder/`.
@@ -87,9 +87,9 @@ This will set up the necessary files under `www/MagicAppBuilder/`.
 
 You can customize configuration files if needed:
 
-* Apache: `config/httpd.conf`
-* PHP: `php/php.ini`
-* MariaDB: `mysql/my.ini`
+* Apache: `config/httpd-template.conf`
+* PHP: `php/php-template.ini`
+* MariaDB: `mysql/my-template.ini`
 
 The configuration files are automatically adjusted based on the install path.
 
