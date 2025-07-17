@@ -36,7 +36,7 @@ ensureDirectory(__DIR__ . "/apache/logs");
 // Replace config templates
 replaceAndWrite(__DIR__ . "/config/httpd-template.conf", __DIR__ . "/config/httpd.conf");
 replaceAndWrite(__DIR__ . "/config/php-template.ini", __DIR__ . "/php/php.ini");
-replaceAndWrite(__DIR__ . "/config/my-template.ini", __DIR__ . "/config/my.ini");
+replaceAndWrite(__DIR__ . "/config/redis.windows-template.conf", __DIR__ . "/redis/redis.windows.conf");
 
 
 echo "=== MagicAppBuilder Portable Installer ===\n";
@@ -44,6 +44,7 @@ echo "=== MagicAppBuilder Portable Installer ===\n";
 // Set path
 $apacheBin = __DIR__ . "/apache/bin/httpd.exe";
 $mysqlBin = __DIR__ . "/mysql/bin/mysqld.exe";
+$redisBin = __DIR__ . "/redis/redis-server.exe";
 
 // Cek dependensi
 if (!file_exists($apacheBin)) {
@@ -79,6 +80,10 @@ if (isPortInUse(3306)) {
 // Jalankan MySQL
 echo "Starting MySQL...\n";
 pclose(popen("start /B \"\" \"" . $mysqlBin . "\" --defaults-file=\"" . __DIR__ . "/config/my.ini", "r"));
+
+// Jalankan Redis
+echo "Starting Redis...\n";
+pclose(popen("start /B \"\" \"" . $redisBin . "\"", "r"));
 
 // Jalankan Apache
 echo "Starting Apache...\n";
