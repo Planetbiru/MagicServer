@@ -52,12 +52,6 @@ if (!is_dir(__DIR__ . '/www')) {
     chmod(__DIR__ . '/www', 0777);
 }
 
-// Remove old MagicAppBuilder folder if it exists
-if (is_dir($extractTo)) {
-    echo "Removing old MagicAppBuilder directory...\n";
-    deleteFolder($extractTo);
-}
-
 // Fetch latest release info from GitHub
 echo "Fetching latest release info from GitHub...\n";
 $releaseInfo = fetchJson($apiUrl);
