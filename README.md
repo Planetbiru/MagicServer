@@ -23,22 +23,24 @@
 
 ```txt
 MagicServer/
-├── apache/              # Apache HTTP Server binaries and configurations
-├── config/              # Template files and generated configurations
-├── data/                # MariaDB data directory
-├── logs/                # Central log directory (Apache, MariaDB, Redis, etc.)
-├── mysql/               # MariaDB binaries
-├── php/                 # PHP runtime environment
-├── redis/               # Redis Server binaries and configuration
-├── sessions/            # PHP session file storage
-├── tmp/                 # Temporary file directory (e.g., uploads)
-├── www/                 # Web root directory (host your app here)
-│   └── MagicAppBuilder/ # Auto-installed MagicAppBuilder (low-code platform)
-├── fn.php               # Common PHP utility functions
-├── index.php            # Default index file (entry point)
-├── install.php          # Installer script for MagicAppBuilder
-├── start.php            # Script to generate config and start Apache + MariaDB + Redis
-└── stop.php             # Script to stop Apache + MariaDB + Redis
+├── apache/                      # Apache HTTP Server binaries and configuration files
+├── config/                      # Generated config files (e.g., for Apache, PHP, Redis)
+├── data/                        # MariaDB data directory (stores databases)
+├── logs/                        # Central log directory (for Apache, MariaDB, Redis, etc.)
+├── mysql/                       # MariaDB binaries and supporting files
+├── php/                         # PHP runtime and configuration (php.ini, extensions)
+├── redis/                       # Redis Server binaries and configuration
+├── sessions/                    # PHP session file storage directory
+├── tmp/                         # Temporary files (e.g., uploads, caches)
+├── www/                         # Web root directory (place your web apps here)
+│   └── MagicAppBuilder/         # Auto-installed MagicAppBuilder (a low-code web platform)
+├── fn.php                       # Common/shared PHP utility functions
+├── index.php                    # Default web entry point (can be replaced with your own app)
+├── install-magicappbuilder.php  # Installer script for MagicAppBuilder platform
+├── install-mariadb.php          # Script to initialize MariaDB system tables (data directory)
+├── set-mariadb-password.php     # Script to set or change the MariaDB root password
+├── start.php                    # Script to generate config and start Apache, MariaDB, and Redis
+└── stop.php                     # Script to gracefully stop Apache, MariaDB, and Redis
 ```
 
 ---
