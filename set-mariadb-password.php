@@ -18,6 +18,16 @@ try {
     $stmt->bindValue(':pass', $newPassword);
     $stmt->execute();
 
+    $stmt = $pdo->prepare("ALTER USER :user@'127.0.0.1' IDENTIFIED BY :pass");
+    $stmt->bindValue(':user', $userToChange);
+    $stmt->bindValue(':pass', $newPassword);
+    $stmt->execute();
+
+    $stmt = $pdo->prepare("ALTER USER :user@'::1' IDENTIFIED BY :pass");
+    $stmt->bindValue(':user', $userToChange);
+    $stmt->bindValue(':pass', $newPassword);
+    $stmt->execute();
+
     echo "✅ Password successfully changed";
 } catch (PDOException $e) {
     echo "❌ Error: " . $e->getMessage();
