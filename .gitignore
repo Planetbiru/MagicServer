@@ -18,3 +18,4 @@ config/my.ini
 *.log
 config/httpd.conf
 config/my.ini
+redis/dump.rdb
