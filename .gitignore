@@ -8,6 +8,7 @@
 # Except index.php inside /www
 !/www/index.php
 !/www/phpMyAdmin/
+/www/phpMyAdmin/tmp/
 
 # Ignore specific config and ini files
 mysql/my.ini
