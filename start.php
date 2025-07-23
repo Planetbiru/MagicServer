@@ -79,7 +79,8 @@ if (isPortInUse(3306)) {
 
 // Jalankan MySQL
 echo "Starting MySQL...\n";
-pclose(popen("start /B \"\" \"" . $mysqlBin . "\" --defaults-file=\"" . __DIR__ . "/config/my.ini", "r"));
+$cmd1 = "start /B \"\" \"" . $mysqlBin . "\" --defaults-file=\"" . __DIR__ . "/config/my.ini";
+pclose(popen($cmd1, "r"));
 
 // Jalankan Redis
 echo "Starting Redis...\n";
