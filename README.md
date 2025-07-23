@@ -33,7 +33,8 @@ MagicServer/
 ├── sessions/                    # PHP session file storage directory
 ├── tmp/                         # Temporary files (e.g., uploads, caches)
 ├── www/                         # Web root directory (place your web apps here)
-│   └── MagicAppBuilder/         # Auto-installed MagicAppBuilder (a low-code web platform)
+│   ├── MagicAppBuilder/         # Auto-installed MagicAppBuilder (a low-code web platform)
+│   └── phpmyadmin/              # Pre-installed phpMyAdmin for managing MariaDB databases
 ├── fn.php                       # Common/shared PHP utility functions
 ├── index.php                    # Default web entry point (can be replaced with your own app)
 ├── install-magicappbuilder.php  # Installer script for MagicAppBuilder platform
@@ -64,15 +65,23 @@ D:
 cd MagicServer
 ```
 
-### 3. Install MagicAppBuilder
+### 3. Install MariaDB
+
+Run the following to install MariaDB:
+
+```bat
+php\php.exe install-mariadb.php
+```
+
+### 4. Install MagicAppBuilder
 
 Run the following to download and install the latest version:
 
 ```bat
-php\php.exe install.php
+php\php.exe install-magicappbuilder.php
 ```
 
-### 4. Start the Server
+### 5. Start the Server
 
 Starts Apache, MariaDB, Redis, and rebuilds configs:
 
@@ -80,15 +89,29 @@ Starts Apache, MariaDB, Redis, and rebuilds configs:
 php\php.exe start.php
 ```
 
-### 5. Access Your Application
+### 6. Access Your Application and Tools
 
 Open your browser and go to:
 
-```
-http://localhost/MagicAppBuilder/
-```
+* MagicAppBuilder:
 
-### 6. Stop the Server
+  ```
+  http://localhost/MagicAppBuilder/
+  ```
+
+* phpMyAdmin (MariaDB web interface):
+
+  ```
+  http://localhost/phpmyadmin/
+  ```
+
+> If you see the error **"Login without a password is forbidden by configuration"**, set a MariaDB root password by running:
+>
+> ```bat
+> php\php.exe set-mariadb-password.php
+> ```
+
+### 7. Stop the Server
 
 To stop all services:
 
@@ -117,11 +140,31 @@ Template-based configurations are rebuilt automatically.
 
 | Service         | Username        | Password        |
 | --------------- | --------------- | --------------- |
-| MariaDB         | `root`          | *(empty)*       |
+| MariaDB         | `root`          | `password`      |
 | MagicAppBuilder | `administrator` | `administrator` |
 | Your App        | `superuser`     | `superuser`     |
 
 > 🔐 Secure your environment by setting strong passwords.
+
+---
+
+### 🔐 Changing the MariaDB Root Password via phpMyAdmin
+
+To change the root password securely using phpMyAdmin:
+
+1. Open [http://localhost/phpmyadmin/](http://localhost/phpmyadmin/) in your browser.
+2. Log in with the default credentials:
+
+   * Username: `root`
+   * Password: `password`
+3. Click the **"User accounts"** tab on the top menu.
+4. Find the user **`root`@`localhost`** and click **"Edit privileges"**.
+5. Scroll to the **"Change password"** section.
+6. Enter your **new secure password** twice, and click **Go**.
+7. Repeat the same steps for any other **`root`** user entries with a different Host name.
+8. After changing the password, you can log out and log in again using the new credentials.
+
+> ⚠️ If you update the root password, make sure any application (including MagicAppBuilder) that connects to MariaDB is updated accordingly.
 
 ---
 
@@ -136,9 +179,12 @@ Template-based configurations are rebuilt automatically.
 
 ## 🛠 Included Tools
 
-* **PHP CLI** — Run PHP scripts
-* **MariaDB Client** — via `mysql/bin/mysql.exe`
-* **Redis CLI** — via `redis/redis-cli.exe`
+| Tool        | Description                                    | Path                                         |
+| ----------- | ---------------------------------------------- | -------------------------------------------- |
+| PHP CLI     | Run PHP scripts from the command line          | `php\php.exe`                                |
+| MariaDB CLI | MySQL-compatible database client               | `mysql\bin\mysql.exe`                        |
+| Redis CLI   | Command-line interface for Redis               | `redis\redis-cli.exe`                        |
+| phpMyAdmin  | Web-based interface for MariaDB administration | Accessible at `/phpmyadmin/` in your browser |
 
 ---
 
