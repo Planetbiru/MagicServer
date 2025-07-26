@@ -30,4 +30,10 @@
   The original `install.php` has been renamed to `install-magicappbuilder.php` for clarity and consistency.
 
 
+# MagicServer Version 0.2.1
+
+## 🔧 Changes
+
+* **Redis PHP Extension Added**
+  The Redis PHP extension is now included by default, enabling Redis-based features such as session storage and caching to work out of the box.
 
