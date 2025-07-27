@@ -4,7 +4,7 @@
 $mysqlBin = __DIR__ . "/mysql/bin/mariadb-install-db.exe";
 
 // Path to the data directory where the MariaDB system tables will be initialized
-$dataDir = __DIR__ . "/mysql/data";
+$dataDir = __DIR__ . "/data/mysql";
 
 // Build the command to run mariadb-install-db.exe in background (non-blocking)
 // Note: There's a typo in the original: missing closing quote for --datadir
