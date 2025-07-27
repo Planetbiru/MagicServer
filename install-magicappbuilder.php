@@ -95,7 +95,10 @@ if ($zip->open($targetZip) === true) {
 
         // Remove the root folder prefix
         $relativePath = preg_replace('#^' . preg_quote($firstDir, '#') . '/#', '', $entry);
-        if ($relativePath === '') continue;
+        if ($relativePath === '') 
+        {
+            continue;
+        }
 
         $destPath = $extractTo . '/' . $relativePath;
 
