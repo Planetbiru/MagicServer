@@ -28,6 +28,7 @@ $newPathToAdd = __DIR__ . "/mysql/bin";
 ensureDirectory(__DIR__ . "/www");
 ensureDirectory(__DIR__ . "/tmp");
 ensureDirectory(__DIR__ . "/data");
+ensureDirectory(__DIR__ . "/data/redis");
 ensureDirectory(__DIR__ . "/logs");
 ensureDirectory(__DIR__ . "/sessions");
 ensureDirectory(__DIR__ . "/apache/logs");
@@ -36,7 +37,9 @@ ensureDirectory(__DIR__ . "/apache/logs");
 // Replace config templates
 replaceAndWrite(__DIR__ . "/config/httpd-template.conf", __DIR__ . "/config/httpd.conf");
 replaceAndWrite(__DIR__ . "/config/php-template.ini", __DIR__ . "/php/php.ini");
+replaceAndWrite(__DIR__ . "/config/my-template.ini", __DIR__ . "/mysql/my.ini");
 replaceAndWrite(__DIR__ . "/config/redis.windows-template.conf", __DIR__ . "/redis/redis.windows.conf");
+replaceAndWrite(__DIR__ . "/config/redis.windows-service-template.conf", __DIR__ . "/redis/redis.windows-service.conf");
 
 
 echo "=== MagicAppBuilder Portable Installer ===\n";
