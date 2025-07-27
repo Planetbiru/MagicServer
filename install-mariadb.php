@@ -1,5 +1,11 @@
 <?php
 
+require_once __DIR__ . "/fn.php";
+
+ensureDirectory(__DIR__ . "/data");
+ensureDirectory(__DIR__ . "/data/mysql");
+replaceAndWrite(__DIR__ . "/config/my-template.ini", __DIR__ . "/config/my.ini");
+
 // Path to the MariaDB installation utility (mariadb-install-db.exe)
 $mysqlBin = __DIR__ . "/mysql/bin/mariadb-install-db.exe";
 
