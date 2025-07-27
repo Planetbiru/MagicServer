@@ -31,6 +31,7 @@ putenv('PATH=' . implode(PATH_SEPARATOR, $paths));
 ensureDirectory(__DIR__ . "/www");
 ensureDirectory(__DIR__ . "/tmp");
 ensureDirectory(__DIR__ . "/data");
+ensureDirectory(__DIR__ . "/data/mysql");
 ensureDirectory(__DIR__ . "/data/redis");
 ensureDirectory(__DIR__ . "/logs");
 ensureDirectory(__DIR__ . "/sessions");
@@ -94,7 +95,10 @@ if ($zip->open($targetZip) === true) {
 
         // Remove the root folder prefix
         $relativePath = preg_replace('#^' . preg_quote($firstDir, '#') . '/#', '', $entry);
-        if ($relativePath === '') continue;
+        if ($relativePath === '') 
+        {
+            continue;
+        }
 
         $destPath = $extractTo . '/' . $relativePath;
 
