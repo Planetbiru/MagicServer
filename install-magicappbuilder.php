@@ -30,6 +30,7 @@ putenv('PATH=' . implode(PATH_SEPARATOR, $paths));
 // Ensure necessary directories
 ensureDirectory(__DIR__ . "/www");
 ensureDirectory(__DIR__ . "/data");
+ensureDirectory(__DIR__ . "/data/mysql");
 ensureDirectory(__DIR__ . "/sessions");
 ensureDirectory(__DIR__ . "/apache/logs");
 
