@@ -1,4 +1,4 @@
-# MagicServer Version 0.1.0
+# MagicServer Version 0.0.0
 
 ## ✨ Features
 
