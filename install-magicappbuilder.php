@@ -29,7 +29,10 @@ putenv('PATH=' . implode(PATH_SEPARATOR, $paths));
 
 // Ensure necessary directories
 ensureDirectory(__DIR__ . "/www");
+ensureDirectory(__DIR__ . "/tmp");
 ensureDirectory(__DIR__ . "/data");
+ensureDirectory(__DIR__ . "/data/redis");
+ensureDirectory(__DIR__ . "/logs");
 ensureDirectory(__DIR__ . "/sessions");
 ensureDirectory(__DIR__ . "/apache/logs");
 
@@ -38,6 +41,8 @@ ensureDirectory(__DIR__ . "/apache/logs");
 replaceAndWrite(__DIR__ . "/config/httpd-template.conf", __DIR__ . "/config/httpd.conf");
 replaceAndWrite(__DIR__ . "/config/php-template.ini", __DIR__ . "/php/php.ini");
 replaceAndWrite(__DIR__ . "/config/my-template.ini", __DIR__ . "/mysql/my.ini");
+replaceAndWrite(__DIR__ . "/config/redis.windows-template.conf", __DIR__ . "/redis/redis.windows.conf");
+replaceAndWrite(__DIR__ . "/config/redis.windows-service-template.conf", __DIR__ . "/redis/redis.windows-service.conf");
 
 $apiUrl = 'https://api.github.com/repos/planetbiru/magicappbuilder/releases/latest';
 $targetZip = __DIR__ . '/magicappbuilder.zip';
