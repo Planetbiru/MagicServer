@@ -23,11 +23,6 @@
 * **Redis PHP Extension Added**
   The Redis PHP extension is bundled by default, enabling Redis-based features such as session storage and caching to work out of the box.
 
-
-# MagicServer Version 0.1.1
-
-## 🔧 Improvements
-
 * **Custom Redis Data Directory Support**
   Redis is now configured to store its data (e.g., `dump.rdb`) in a dedicated directory under the install path: `${INSTALL_DIR}/data/redis`.
   This improves data separation and makes it easier to back up or relocate Redis data alongside other application components.
