@@ -28,6 +28,8 @@ $newPathToAdd = __DIR__ . "/mysql/bin";
 ensureDirectory(__DIR__ . "/www");
 ensureDirectory(__DIR__ . "/tmp");
 ensureDirectory(__DIR__ . "/data");
+ensureDirectory(__DIR__ . "/data/mysql");
+ensureDirectory(__DIR__ . "/data/redis");
 ensureDirectory(__DIR__ . "/logs");
 ensureDirectory(__DIR__ . "/sessions");
 ensureDirectory(__DIR__ . "/apache/logs");
@@ -36,7 +38,7 @@ ensureDirectory(__DIR__ . "/apache/logs");
 // Replace config templates
 replaceAndWrite(__DIR__ . "/config/httpd-template.conf", __DIR__ . "/config/httpd.conf");
 replaceAndWrite(__DIR__ . "/config/php-template.ini", __DIR__ . "/php/php.ini");
-replaceAndWrite(__DIR__ . "/config/my-template.ini", __DIR__ . "/mysql/my.ini");
+replaceAndWrite(__DIR__ . "/config/my-template.ini", __DIR__ . "/config/my.ini");
 replaceAndWrite(__DIR__ . "/config/redis.windows-template.conf", __DIR__ . "/redis/redis.windows.conf");
 replaceAndWrite(__DIR__ . "/config/redis.windows-service-template.conf", __DIR__ . "/redis/redis.windows-service.conf");
 
@@ -86,12 +88,14 @@ pclose(popen($cmd1, "r"));
 
 // Jalankan Redis
 echo "Starting Redis...\n";
-pclose(popen("start /B \"\" \"" . $redisBin . "\"", "r"));
+$cmd2 = "start /B \"\" \"" . $redisBin . "\"";
+pclose(popen($cmd2, "r"));
 
 // Jalankan Apache
 echo "Starting Apache...\n";
-pclose(popen("start /B \"\" \"" . $apacheBin . "\" -f \"" . __DIR__ . "/config/httpd.conf\"", "r"));
+$cmd3 = "start /B \"\" \"" . $apacheBin . "\" -f \"" . __DIR__ . "/config/httpd.conf\"";
+pclose(popen($cmd3, "r"));
 
 echo "DONE. Access your app at http://localhost\n";
-
-pclose(popen("start http://localhost", "r"));
+$cmd4 = "start http://localhost";
+pclose(popen($cmd4, "r"));
