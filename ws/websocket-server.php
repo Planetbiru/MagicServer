@@ -309,6 +309,7 @@ class BroadcastServer implements MessageComponentInterface {
                 }
             }
         }
+        
         // Log the broadcasted message to the console.
         echo "Broadcast: {$payload}\n";
     }
@@ -376,7 +377,7 @@ function updateServerStatus(PDO $pdo, $status) {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
-// Load configuration
+// Load configuration from YAML file
 $spycy = new Spicy();
 $config = $spycy->loadFile(dirname(__DIR__) . '/www/MagicAppBuilder/inc.cfg/core.yml');
 
@@ -388,19 +389,19 @@ $databaseConfig = normalizeKeysToCamelCase($databaseConfig);
 $sessionConfig = normalizeKeysToCamelCase($sessionConfig);
 $notificationConfig = normalizeKeysToCamelCase($notificationConfig);
 
-$httpPort = isset($notificationConfig['httpPort']) ? $notificationConfig['httpPort'] : 8080; // default HTTP port
-$wsPort   = isset($notificationConfig['wsPort']) ? $notificationConfig['wsPort'] : 8081; // default WebSocket port
-$authToken = isset($notificationConfig['authToken']) ? $notificationConfig['authToken'] : ''; // default auth token
+$httpPort = isset($notificationConfig['httpPort']) ? $notificationConfig['httpPort'] : 8080; // default HTTP port for notify endpoint
+$wsPort   = isset($notificationConfig['wsPort']) ? $notificationConfig['wsPort'] : 8081;     // default WebSocket port
+$authToken = isset($notificationConfig['authToken']) ? $notificationConfig['authToken'] : ''; // default authentication token for notify requests
 
 if($notificationConfig['enabled'])
 {
-    // create event loop
+    // Create the ReactPHP event loop
     $loop = Loop::get();
 
-    // create WebSocket server (listen WS_PORT)
-
+    // Create the session manager with the loaded session configuration
     $sessionManager = new SessionManager($sessionConfig);
 
+    // Build the database DSN (Data Source Name) for PDO connection
     $dataSource = sprintf(
         '%s:host=%s;port=%d;dbname=%s;charset=utf8',
         $databaseConfig['driver'],
@@ -409,13 +410,15 @@ if($notificationConfig['enabled'])
         $databaseConfig['databaseName']
     );
 
+    // Create a new PDO instance for database operations with exception error mode
     $pdo = new PDO($dataSource, $databaseConfig['username'], $databaseConfig['password'], [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
     ]);
 
-    // Set status ONLINE saat start
+    // Update the server status to 'online' on startup
     updateServerStatus($pdo, 'online');
 
+    // Initialize the broadcast WebSocket server with session management
     $broadcastServer = new BroadcastServer($sessionManager);
     $wsServer = new Ratchet\Server\IoServer(
         new HttpServer(new WsServer($broadcastServer)),
@@ -423,76 +426,84 @@ if($notificationConfig['enabled'])
         $loop
     );
 
-    // create a small React HTTP server for receiving notify requests
+    // Create a small HTTP server to receive notification requests (e.g. POST /notify)
     $http = new ReactHttpServer(function (ServerRequestInterface $req) use ($broadcastServer, $authToken) {
         $path = $req->getUri()->getPath();
         if ($path !== '/notify') {
-            return new React\Http\Message\Response(404, ['Content-Type'=>'application/json'], json_encode(['error'=>'not found']));
+            // Return 404 if the endpoint is not /notify
+            return new React\Http\Message\Response(404, ['Content-Type'=>'application/json'], json_encode(['success'=>false, 'error'=>'not found']));
         }
 
-        // Auth: simple Bearer token in Authorization header
-        $auth = $req->getHeaderLine('Authorization'); // "Bearer token..."
+        // Simple authentication: check for Bearer token in Authorization header
+        $auth = $req->getHeaderLine('Authorization'); // expected format: "Bearer token..."
         if (!preg_match('/Bearer\s+(.+)/', $auth, $m) || $m[1] !== $authToken) {
-            return new React\Http\Message\Response(401, ['Content-Type'=>'application/json'], json_encode(['error'=>'unauthorized']));
+            // Return 401 Unauthorized if token is missing or invalid
+            return new React\Http\Message\Response(401, ['Content-Type'=>'application/json'], json_encode(['success'=>false, 'error'=>'unauthorized']));
         }
 
+        // Read and decode JSON payload from request body
         $body = $req->getBody()->getContents();
         $data = json_decode($body, true);
-        if (!is_array($data) || !isset($data['message'])) {
-            return new React\Http\Message\Response(400, ['Content-Type'=>'application/json'], json_encode(['error'=>'invalid payload, must be json with field message']));
+        if (!is_array($data) || !isset($data['data'])) {
+            // Return 400 Bad Request if payload is invalid or missing required 'message' field
+            return new React\Http\Message\Response(400, ['Content-Type'=>'application/json'], json_encode(['success'=>false, 'error'=>'invalid payload, must be json with field data']));
         }
 
+        // Prepare the event data to broadcast
         $event = [
             'type' => isset($data['type']) ? $data['type'] : 'notification',
-            'message' => $data['message'],
+            'data' => $data['data'],
             'meta' => isset($data['meta']) ? $data['meta'] : null,
-            'sent_at' => gmdate('c'),
+            'sent_at' => gmdate('c'), // UTC timestamp in ISO 8601 format
         ];
 
-        // kirim ke semua client
+        // Broadcast the event to all connected WebSocket clients
         $broadcastServer->broadcast($event);
 
-        return new React\Http\Message\Response(200, ['Content-Type'=>'application/json'], json_encode(['ok' => true]));
+        // Return success response
+        return new React\Http\Message\Response(200, ['Content-Type'=>'application/json'], json_encode(['success'=>true, 'error' => null]));
     });
 
+    // Listen on configured HTTP port for notify endpoint
     $socket = new SocketServer("0.0.0.0:{$httpPort}", [], $loop);
     $http->listen($socket);
 
     echo "HTTP notify endpoint listening on port {$httpPort}\n";
     echo "WebSocket listening on port {$wsPort}\n";
 
-    // Signal handler for Linux/Mac
+    // Signal handler for Linux/Mac (SIGINT for Ctrl+C)
     if (defined('SIGINT') && function_exists('pcntl_signal')) {
         $loop->addSignal(SIGINT, function() use (&$running, $loop, $pdo) {
-            echo "CTRL+C terdeteksi\n";
-            $running = false;
-            $loop->stop();
-            updateServerStatus($pdo, 'offline');
+            echo "CTRL+C detected\n";
+            $running = false;  // Optional flag to stop application logic if needed
+            $loop->stop();     // Stop the ReactPHP event loop gracefully
+            updateServerStatus($pdo, 'offline'); // Update server status to offline
         });
     }
 
-    // Signal handler for Windows
+    // Signal handler for Windows (CTRL+C event)
     if (PHP_OS_FAMILY === 'Windows' && function_exists('sapi_windows_set_ctrl_handler')) {
         sapi_windows_set_ctrl_handler(function($event) use (&$running, $loop, $pdo) {
             if ($event === PHP_WINDOWS_EVENT_CTRL_C) {
                 echo "CTRL+C detected\n";
-                $running = false;
-                $loop->stop();
-                updateServerStatus($pdo, 'offline');
+                $running = false;  // Optional flag to stop application logic if needed
+                $loop->stop();     // Stop the ReactPHP event loop gracefully
+                updateServerStatus($pdo, 'offline'); // Update server status to offline
             }
-            return true;
+            return true; // Indicate that we handled the event
         });
     }
 
-    // Add a periodic timer to keep the loop running
+    // Add a periodic timer to keep the event loop alive and responsive
     $loop->addPeriodicTimer(1, function() {
-        // Check if the loop is still running
+        // No operation needed here; this keeps the loop active
     });
 
-    // run loop
+    // Start the ReactPHP event loop (blocking call)
     $loop->run();
 }
 else
 {
+    // Notify that the notification service is disabled in configuration
     echo "Notification service is disabled.\n";
 }
