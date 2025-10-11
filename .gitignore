@@ -11,6 +11,7 @@
 !/www/ws.php
 !/www/index.php
 !/www/phpMyAdmin/
+!/www/__assets/
 /www/phpMyAdmin/tmp/
 
 # Ignore specific config and ini files

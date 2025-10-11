@@ -96,6 +96,6 @@ echo "Starting Apache...\n";
 $cmd3 = "start /B \"\" \"" . $apacheBin . "\" -f \"" . __DIR__ . "/config/httpd.conf\""; // NOSONAR
 pclose(popen($cmd3, "r"));
 
-echo "DONE. Access your app at http://localhost\n";
-$cmd4 = "start http://localhost"; // NOSONAR
+echo "DONE. Access your app at http://localhost/MagicAppBuilder/\n";
+$cmd4 = "start http://localhost/MagicAppBuilder/"; // NOSONAR
 pclose(popen($cmd4, "r"));
