@@ -37,3 +37,7 @@
   These scripts also ensure the target folder exists and is writable by the Redis service, ensuring seamless startup and persistence.
 
 
+# MagicServer Version 0.0.1
+
+## Enhancement: Add Indexing
+
