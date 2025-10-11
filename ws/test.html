@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>WebSocket Test</title>
+</head>
+<body>
+<h1>WebSocket Test</h1>
+<div id="log"></div>
+
+<script>
+let ws;
+let reconnectInterval = 3000; // 3 detik
+
+function log(msg) {
+    document.getElementById("log").innerHTML += `<div>${msg}</div>`;
+}
+
+function connect() {
+    ws = new WebSocket("ws://localhost:8081");
+
+    ws.onopen = () => {
+        log("✅ Connected to WebSocket server");
+        ws.send("Hello Server!");
+    };
+
+    ws.onmessage = (event) => {
+        log("📩 Message from server: " + event.data);
+    };
+
+    ws.onerror = (err) => {
+        log("❌ WebSocket error: " + err);
+    };
+
+    ws.onclose = () => {
+        log("⚠️ WebSocket disconnected. Reconnecting in " + (reconnectInterval/1000) + "s...");
+        setTimeout(connect, reconnectInterval);
+    };
+}
+
+connect();
+</script>
+</body>
+</html>

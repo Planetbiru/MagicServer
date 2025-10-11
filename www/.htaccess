@@ -1,0 +1,9 @@
+# Make sure mod_proxy and mod_proxy_wstunnel are enabled
+RewriteEngine On
+
+# Check if the request is a WebSocket (Upgrade header)
+RewriteCond %{HTTP:Upgrade} =websocket [NC]
+RewriteRule ^ws/?$  ws://localhost:8081/  [P,L]
+
+# If the request is not a WebSocket, it can be routed to regular PHP
+RewriteRule ^ws/?$  /blank.php  [L]

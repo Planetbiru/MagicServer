@@ -1,4 +1,4 @@
-# MagicServer Version 0.1.0
+# MagicServer Version 0.0.0
 
 ## ✨ Features
 
@@ -36,4 +36,8 @@
   During setup, the **installer and starter scripts** will automatically generate the actual Redis configuration files (`redis.windows-service.conf` and `redis.windows.conf`) by replacing `${INSTALL_DIR}` with the appropriate installation path.
   These scripts also ensure the target folder exists and is writable by the Redis service, ensuring seamless startup and persistence.
 
+
+# MagicServer Version 0.0.1
+
+## Enhancement: Add Indexing
 
