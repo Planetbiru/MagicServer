@@ -92,16 +92,19 @@ $directories = getDirectories($basePath);
         <input type="text" id="filterInput" class="filter-input" onkeyup="filterApplications()" placeholder="Search for application...">
         <ul class="list-group" id="applicationList">
             <?php foreach ($directories as $dir){ 
-                if(file_exists($dir . "/inc.cfg/application.yml") && $magicAppBuilderExists)
+                $applicationConfig = $dir . "/inc.cfg/application.yml";
+                if(file_exists($applicationConfig))
                 {
-                    $applicationConfig = $dir . "/inc.cfg/application.yml";
-                    $description = getDescription($applicationConfig);
-                }
-                else
-                {
-                    $description = getDirectoryContent($dir);
-                }
-                $basename = basename($dir);
+                    if($magicAppBuilderExists)
+                    {
+                        
+                        $description = getDescription($applicationConfig);
+                    }
+                    else
+                    {
+                        $description = getDirectoryContent($dir);
+                    }
+                    $basename = basename($dir);
                 ?>
                 <a href="<?= $basename ?>" class="list-group-item-link">
                     <li class="list-group-item">
@@ -112,7 +115,10 @@ $directories = getDirectories($basePath);
                         </div>
                     </li>
                 </a>
-            <?php } ?>
+            <?php 
+                }
+            }
+            ?>
         </ul>
     </div>
 

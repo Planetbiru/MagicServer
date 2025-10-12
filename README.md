@@ -33,8 +33,10 @@ MagicServer/
 ├── sessions/                    # PHP session file storage directory
 ├── tmp/                         # Temporary files (e.g., uploads, caches)
 ├── www/                         # Web root directory (place your web apps here)
+│   ├── __assets/                # Contains common asset files for the root index page
 │   ├── MagicAppBuilder/         # Auto-installed MagicAppBuilder (a low-code web platform)
-│   └── phpmyadmin/              # Pre-installed phpMyAdmin for managing MariaDB databases
+│   ├── phpmyadmin/              # Pre-installed phpMyAdmin for managing MariaDB databases
+│   └── index.php                # Index page for the www directory
 ├── fn.php                       # Common/shared PHP utility functions
 ├── index.php                    # Default web entry point (can be replaced with your own app)
 ├── install-magicappbuilder.php  # Installer script for MagicAppBuilder platform
@@ -207,4 +209,3 @@ MagicServer includes:
 ---
 
 💡 Happy building with **MagicAppBuilder + Redis** on MagicServer! 🚀
-
