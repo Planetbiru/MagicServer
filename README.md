@@ -91,7 +91,28 @@ Starts Apache, MariaDB, Redis, and rebuilds configs:
 php\php.exe start.php
 ```
 
-### 6. Access Your Application and Tools
+### 6. Set the MariaDB Root User Password
+
+Once the server is up and running, it's important to set a secure password for the MariaDB `root` user.
+
+To do this, run the following script:
+
+```bat
+php\php.exe set-mariadb-password.php
+```
+
+By default, this script will set the `root` user's password to `password`. If you'd prefer to use a different password, you can modify the script beforehand by editing the following lines in the `set-mariadb-password.php` file:
+
+```php
+$rootPassword = ''; // Current password. Leave empty if no password is set yet.
+$newPassword = 'password'; // Desired new password.
+```
+
+If you've already executed the script before changing the password, simply fill in the current password in the `$rootPassword` variable and re-run the script. This ensures the password update is applied correctly.
+
+> Tip: Always choose a strong, unique password for database root access to enhance security and prevent unauthorized access.
+
+### 7. Access Your Application and Tools
 
 Open your browser and go to:
 
@@ -113,7 +134,7 @@ Open your browser and go to:
 > php\php.exe set-mariadb-password.php
 > ```
 
-### 7. Stop the Server
+### 8. Stop the Server
 
 To stop all services:
 
