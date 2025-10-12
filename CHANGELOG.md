@@ -39,5 +39,22 @@
 
 # MagicServer Version 0.0.1
 
-## Enhancement: Add Indexing
+## ✨ Enhancements
+
+### Index Page for `www` Directory
+
+Previously, accessing the server's root URL (`http://localhost/`) would automatically redirect to the `/MagicAppBuilder/` application.
+
+This version introduces a new index page at the root. Now, visiting `http://localhost/` displays a user-friendly list of all available tools and applications within the `www` directory, such as:
+- **MagicAppBuilder**
+- **phpMyAdmin**
+- Any other custom web applications you've added.
+
+This improves discoverability and makes it easier to navigate between different projects hosted on MagicServer.
+
+### Direct Startup Navigation to MagicAppBuilder
+
+The `start.php` script has been updated to improve the user experience. Previously, running the start script would open the browser to the server root (`http://localhost/`).
+
+Now, it automatically opens the browser directly to `http://localhost/MagicAppBuilder/`, allowing you to get started with the main application immediately after server startup.
 
