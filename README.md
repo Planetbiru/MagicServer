@@ -38,7 +38,6 @@ MagicServer/
 │   ├── phpmyadmin/              # Pre-installed phpMyAdmin for managing MariaDB databases
 │   └── index.php                # Index page for the www directory
 ├── fn.php                       # Common/shared PHP utility functions
-├── index.php                    # Default web entry point (can be replaced with your own app)
 ├── install-magicappbuilder.php  # Installer script for MagicAppBuilder platform
 ├── install-mariadb.php          # Script to initialize MariaDB system tables (data directory)
 ├── set-mariadb-password.php     # Script to set or change the MariaDB root password
