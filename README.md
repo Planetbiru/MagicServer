@@ -259,6 +259,68 @@ Your `root` password has now been successfully reset.
 
 ---
 
+## 🆘 Repairing a Corrupt MariaDB Installation
+
+If MariaDB fails to start, it might be due to corrupted data files, often caused by an improper shutdown (e.g., a system crash or closing the command window without running `stop.php`). You can attempt to recover your data by starting MariaDB in InnoDB's force recovery mode.
+
+> **Warning:** These steps are for emergency recovery. While this procedure can save your data, it's possible some recent transactions might be lost. Always back up your data regularly.
+
+1.  **Stop All Services**
+
+    Ensure all server components are fully stopped.
+    ```bat
+    php\php.exe stop.php
+    ```
+
+2.  **Enable Force Recovery Mode**
+
+    *   Open the MariaDB configuration template: `config/my-template.ini`.
+    *   Add the following line under the `[mysqld]` section:
+        ```ini
+        innodb_force_recovery = 1
+        ```
+    *   Save the file. If MariaDB still fails to start in the next step, you can try increasing this value from 1 up to 6. Use the lowest value that allows the server to start.
+
+3.  **Start the Server in Recovery Mode**
+
+    This command will regenerate the configuration and attempt to start MariaDB. In recovery mode, InnoDB tables will be read-only.
+    ```bat
+    php\php.exe start.php
+    ```
+    If MariaDB starts successfully, proceed immediately to the next step.
+
+4.  **Backup Your Databases (Critical Step)**
+
+    With the server running, you must export all your databases to SQL files.
+    *   Go to **phpMyAdmin** at `http://localhost/phpmyadmin/`.
+    *   For each of your important databases, select it, go to the **"Export"** tab, and click **"Export"** to save the `.sql` file.
+
+5.  **Clean Up and Re-initialize**
+
+    Once you have backed up your data, you need to reset MariaDB to a clean state.
+    *   Stop the server:
+        ```bat
+        php\php.exe stop.php
+        ```
+    *   Remove the `innodb_force_recovery` line from `config/my-template.ini`.
+    *   Delete the old, corrupt data directory: `data/mysql`.
+    *   Re-initialize MariaDB to create a fresh data directory:
+        ```bat
+        php\php.exe install-mariadb.php
+        ```
+
+6.  **Restart and Restore**
+
+    *   Start the server normally:
+        ```bat
+        php\php.exe start.php
+        ```
+    *   Go back to **phpMyAdmin**, create new empty databases with the same names as before, and use the **"Import"** tab to restore your data from the `.sql` files you saved.
+
+Your MariaDB server should now be running with your data restored.
+
+---
+
 ## ⚙️ Compatibility
 
 * ✅ Windows 10 and 11
