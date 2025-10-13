@@ -11,11 +11,10 @@
 * ✅ **Auto-installs MagicAppBuilder**
 * ✅ **Rebuilds server configuration on each startup**
 * ✅ **Includes**:
-
-  * Apache HTTP Server
-  * PHP
-  * MariaDB (MySQL-compatible)
-  * Redis Server (Windows build)
+  * **Apache** 2.4.64
+  * **PHP** 8.4.10
+  * **MariaDB** 11.8.2
+  * **Redis** 5.0.14.1 (Windows build)
 
 ---
 
