@@ -58,3 +58,38 @@ The `start.php` script has been updated to improve the user experience. Previous
 
 Now, it automatically opens the browser directly to `http://localhost/MagicAppBuilder/`, allowing you to get started with the main application immediately after server startup.
 
+# MagicServer Version 0.0.2
+
+## 📖 Documentation Updates
+
+This release focuses on enhancing the `README.md` with critical troubleshooting and security guides to improve user self-sufficiency and server management.
+
+### Added MariaDB Password Reset Guide
+
+A comprehensive, step-by-step guide has been added to the `README.md` for resetting a forgotten MariaDB `root` password. This procedure involves:
+1.  Stopping the server.
+2.  Restarting MariaDB in safe mode (`--skip-grant-tables`).
+3.  Connecting without a password to reset the `root` user's credentials.
+4.  Restarting the server normally.
+
+This ensures users can regain access to their database without losing data.
+
+### Added MariaDB Corruption Repair Guide
+
+Instructions are now available for recovering a corrupt MariaDB installation, which can happen after an improper shutdown. The guide details how to use `innodb_force_recovery` mode to:
+1.  Start the server in a read-only state.
+2.  Back up all databases using a tool like phpMyAdmin.
+3.  Re-initialize the MariaDB data directory.
+4.  Restore the databases from the backups.
+
+This provides a clear recovery path for otherwise catastrophic data corruption.
+
+### Added Redis Password Setup Guide
+
+To improve security, a new section in the `README.md` explains how to set a password for the Redis server. The process involves:
+1.  Editing the `config/redis-template.conf` file.
+2.  Uncommenting and setting the `requirepass` directive.
+3.  Restarting the server to apply the new configuration.
+
+This helps users secure their Redis instance from unauthorized access.
+
