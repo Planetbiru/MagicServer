@@ -189,6 +189,76 @@ To change the root password securely using phpMyAdmin:
 
 ---
 
+## 🔑 Forgot MariaDB Password?
+
+If you’ve forgotten the MariaDB `root` password, you can reset it by following these steps. This method temporarily starts MariaDB in a special mode that does not require a password to log in.
+
+1. **Stop the Server (if it’s running)**
+
+   Open Command Prompt and run the `stop.php` script to make sure all services are stopped.
+
+   ```bat
+   php\php.exe stop.php
+   ```
+
+2. **Open Command Prompt as Administrator**
+
+   Make sure you are in the `MagicServer` directory.
+
+3. **Run MariaDB in Safe Mode**
+
+   Run the following command to start MariaDB without access control checks. Keep this Command Prompt window open.
+
+   ```bat
+   mysql\bin\mysqld.exe --skip-grant-tables --skip-networking
+   ```
+
+4. **Open a New Command Prompt (as Administrator)**
+
+   Open a **second** Command Prompt window and navigate back to the `MagicServer` directory.
+
+5. **Log In to MariaDB Without a Password**
+
+   Type the following command to log in as `root`:
+
+   ```bat
+   mysql\bin\mysql.exe -u root
+   ```
+
+6. **Reset the Password**
+
+   Once inside the MariaDB console, run the following SQL commands to set a new password. Replace `your_new_password` with the password you want.
+
+   ```sql
+    FLUSH PRIVILEGES;
+    CREATE USER IF NOT EXISTS 'root'@'localhost' IDENTIFIED BY 'your_new_password';
+    CREATE USER IF NOT EXISTS 'root'@'127.0.0.1' IDENTIFIED BY 'your_new_password';
+    CREATE USER IF NOT EXISTS 'root'@'::1' IDENTIFIED BY 'your_new_password';
+    CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY 'your_new_password';
+    GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION;
+    GRANT ALL PRIVILEGES ON *.* TO 'root'@'127.0.0.1' WITH GRANT OPTION;
+    GRANT ALL PRIVILEGES ON *.* TO 'root'@'::1' WITH GRANT OPTION;
+    GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+    FLUSH PRIVILEGES;
+    QUIT;
+   ```
+
+7. **Stop MariaDB Safe Mode**
+
+   Close the first Command Prompt window (where you ran `mysqld.exe --skip-grant-tables`).
+
+8. **Restart the Server Normally**
+
+   Now you can start all services again as usual.
+
+   ```bat
+   php\php.exe start.php
+   ```
+
+Your `root` password has now been successfully reset.
+
+---
+
 ## ⚙️ Compatibility
 
 * ✅ Windows 10 and 11
