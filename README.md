@@ -321,6 +321,41 @@ Your MariaDB server should now be running with your data restored.
 
 ---
 
+## 🔐 Setting a Redis Password
+
+For enhanced security, it is highly recommended to set a password for your Redis server. By default, Redis is configured without a password.
+
+1.  **Stop the Server**
+
+    If the server is running, stop it first to prevent any issues.
+    ```bat
+    php\php.exe stop.php
+    ```
+
+2.  **Edit the Redis Template**
+
+    Open the Redis configuration template file located at `config/redis.windows-template.conf`.
+
+3.  **Set the Password**
+
+    Find the line `# requirepass foobared`. Uncomment it (remove the `#`) and replace `foobared` with your own strong, secure password.
+    ```conf
+    requirepass your_strong_password_here
+    ```
+
+4.  **Restart the Server**
+
+    Run the start script. This will regenerate `redis/redis.windows.conf` from the template and start the server with the new password requirement.
+    ```bat
+    php\php.exe start.php
+    ```
+
+5.  **Update Your Application**
+
+    Don't forget to update the Redis configuration in your application (e.g., in MagicAppBuilder's configuration files) to include the new password, so it can connect to the Redis server.
+
+---
+
 ## ⚙️ Compatibility
 
 * ✅ Windows 10 and 11
