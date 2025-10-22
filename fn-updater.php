@@ -243,7 +243,10 @@ BAT;
         file_put_contents($batchScriptPath, $batchScriptContent);
 
         // Execute the batch script in a new, detached process
-        pclose(popen("start /B \"\" \"$batchScriptPath\"", "r"));
+        // Redirect output to NUL to prevent "The process tried to write to a nonexistent pipe" error.
+        // The process is started in the background and fully detached.
+        $command = "start /B \"\" \"$batchScriptPath\" > NUL 2>&1";
+        pclose(popen($command, "r"));
     }
 
     echo COLOR_GREEN . "✅ Update applied successfully.\n" . COLOR_NC;
