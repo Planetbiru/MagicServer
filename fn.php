@@ -1,5 +1,12 @@
 <?php
 
+// ANSI Color Codes for console output
+const COLOR_GREEN = "\033[0;32m";
+const COLOR_RED   = "\033[0;31m";
+const COLOR_BLUE  = "\033[0;34m";
+const COLOR_YELLOW = "\033[0;33m";
+const COLOR_NC    = "\033[0m"; // No Color
+
 /**
  * Ensure a directory exists and has 0777 permissions.
  *

@@ -49,13 +49,13 @@ $apiUrl = 'https://api.github.com/repos/planetbiru/magicappbuilder/releases/late
 $targetZip = __DIR__ . '/magicappbuilder.zip';
 $extractTo = __DIR__ . '/www/MagicAppBuilder';
 
-echo "=== MagicAppBuilder Installer ===\n";
+echo COLOR_BLUE . "=== MagicAppBuilder Installer ===\n" . COLOR_NC;
 
 // Create www folder if it doesn't exist
 if (!is_dir(__DIR__ . '/www')) {
     mkdir(__DIR__ . '/www', 0777, true);
 } else {
-    chmod(__DIR__ . '/www', 0777);
+    @chmod(__DIR__ . '/www', 0777);
 }
 
 // Fetch latest release info from GitHub
@@ -63,12 +63,12 @@ echo "Fetching latest release info from GitHub...\n";
 $releaseInfo = fetchJson($apiUrl);
 
 if (!$releaseInfo || !isset($releaseInfo['zipball_url'])) {
-    echo "❌ Failed to fetch release information.\n";
+    echo COLOR_RED . "❌ Failed to fetch release information.\n" . COLOR_NC;
     exit(1);
 }
 
 $zipUrl = $releaseInfo['zipball_url'];
-echo "Downloading latest release: {$releaseInfo['tag_name']}...\n";
+echo "Downloading latest release: " . COLOR_YELLOW . "{$releaseInfo['tag_name']}" . COLOR_NC . "...\n";
 file_put_contents($targetZip, fetchStream($zipUrl));
 
 if (!file_exists($targetZip)) {
@@ -77,7 +77,7 @@ if (!file_exists($targetZip)) {
 }
 
 // Manually extract ZIP to www/MagicAppBuilder
-echo "Extracting files manually...\n";
+echo "Extracting files...\n";
 $zip = new ZipArchive();
 if ($zip->open($targetZip) === true) {
     mkdir($extractTo, 0777, true);
@@ -121,9 +121,9 @@ if ($zip->open($targetZip) === true) {
     $zip->close();
     unlink($targetZip);
 
-    echo "✅ MagicAppBuilder has been installed at: www/MagicAppBuilder\n";
+    echo COLOR_GREEN . "✅ MagicAppBuilder has been installed at: www/MagicAppBuilder\n" . COLOR_NC;
 } else {
-    echo "❌ Failed to open zip archive.\n";
+    echo COLOR_RED . "❌ Failed to open zip archive.\n" . COLOR_NC;
     unlink($targetZip);
     exit(1);
 }
