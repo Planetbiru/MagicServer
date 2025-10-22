@@ -67,11 +67,27 @@ if (!$releaseInfo || !isset($releaseInfo['zipball_url'])) {
     exit(1);
 }
 
-$zipUrl = $releaseInfo['zipball_url'];
-echo "Downloading latest release: " . COLOR_YELLOW . "{$releaseInfo['tag_name']}" . COLOR_NC . "...\n";
-file_put_contents($targetZip, fetchStream($zipUrl));
+// --- Find the correct download URL from assets ---
+$zipUrl = null;
+if (!empty($releaseInfo['assets'])) {
+    foreach ($releaseInfo['assets'] as $asset) {
+        // Find the first asset that is a zip file
+        if ($asset['content_type'] === 'application/zip' || pathinfo($asset['name'], PATHINFO_EXTENSION) === 'zip') {
+            $zipUrl = $asset['browser_download_url'];
+            break;
+        }
+    }
+}
 
-if (!file_exists($targetZip)) {
+// Fallback to zipball_url if no suitable asset is found
+if (!$zipUrl) {
+    $zipUrl = $releaseInfo['zipball_url'];
+}
+echo "Latest release: " . COLOR_YELLOW . "{$releaseInfo['tag_name']}" . COLOR_NC . "\n";
+
+
+
+if (!downloadFileWithProgress($zipUrl, $targetZip) || !file_exists($targetZip)) {
     echo "❌ Failed to download archive.\n";
     exit(1);
 }
@@ -80,8 +96,11 @@ if (!file_exists($targetZip)) {
 echo "Extracting files...\n";
 $zip = new ZipArchive();
 if ($zip->open($targetZip) === true) {
-    mkdir($extractTo, 0777, true);
-
+    if(!file_exists($extractTo))
+    {
+        mkdir($extractTo, 0777, true);
+    }
+    
     // GitHub zipball folder prefix (e.g., 'planetbiru-magicappbuilder-abc123/')
     $firstDir = null;
 

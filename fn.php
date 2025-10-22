@@ -235,3 +235,46 @@ function fetchStream($url, $progressCallback = null)
     curl_close($ch);
     return $data;
 }
+
+/**
+ * Downloads a file from a URL and saves it to a destination, showing progress.
+ *
+ * @param string $url The URL of the file to download.
+ * @param string $destination The path to save the file.
+ * @return bool True on success, false on failure.
+ */
+function downloadFileWithProgress($url, $destination)
+{
+    $fileHandle = fopen($destination, 'w');
+    if ($fileHandle === false) {
+        echo COLOR_RED . "❌ Could not open file for writing: $destination\n" . COLOR_NC;
+        return false;
+    }
+
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_FILE, $fileHandle);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_USERAGENT, 'MagicAppBuilder Installer');
+    curl_setopt($ch, CURLOPT_FAILONERROR, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Add this line
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false); // Add this line
+    curl_setopt($ch, CURLOPT_NOPROGRESS, false);
+
+    curl_setopt($ch, CURLOPT_PROGRESSFUNCTION, function ($resource, $download_size, $downloaded) {
+        if ($download_size > 0) {
+            $percentage = round($downloaded * 100 / $download_size);
+            $barLength = 40;
+            $filledLength = round($barLength * $percentage / 100);
+            $bar = str_repeat('=', $filledLength) . str_repeat(' ', $barLength - $filledLength);
+            printf("\rDownloading: [%s] %d%%", $bar, $percentage);
+        }
+    });
+
+    $result = curl_exec($ch);
+    curl_close($ch);
+    fclose($fileHandle);
+
+    echo "\n"; // New line after progress bar
+
+    return $result;
+}

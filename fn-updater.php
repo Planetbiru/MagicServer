@@ -3,7 +3,7 @@
 require_once __DIR__ . "/fn.php";
 
 /**
- * update-magicserver.php
+ * fn-updater.php
  * 
  * Script to download and update MagicServer with the latest release from GitHub.
  * It will skip user data and configuration files.
@@ -28,7 +28,6 @@ $skipPaths = [
     'config/php.ini',
     'config/redis.windows.conf',
     'config/redis.windows-service.conf',
-    'update-magicserver.php', // Don't overwrite the updater script itself
     'backups/' // Don't include the backup directory in backups
 ];
 
@@ -204,14 +203,7 @@ try {
     $zip->close();
 
     // Check if there is a PHP update
-    $updaterNeedsUpdate = false;
     $phpNeedsUpdate = false;
-
-    $newUpdaterPath = $updateTempDir . '/' . $rootPrefix . 'update-magicserver.php';
-    if (file_exists($newUpdaterPath)) {
-        $updaterNeedsUpdate = true;
-        echo COLOR_YELLOW . "Updater script update detected.\n" . COLOR_NC;
-    }
 
     $newPhpDir = $updateTempDir . '/' . $rootPrefix . 'php';
     if (is_dir($newPhpDir)) {
@@ -219,7 +211,7 @@ try {
         echo COLOR_YELLOW . "PHP runtime update detected.\n" . COLOR_NC;
     }
 
-    if ($updaterNeedsUpdate || $phpNeedsUpdate) {
+    if ($phpNeedsUpdate) {
         echo COLOR_YELLOW . "A separate script will complete the final update steps.\n" . COLOR_NC;
         $batchScriptPath = $targetDir . '/finalize-update-temp.bat';
         $batchScriptContent = <<<BAT
@@ -231,23 +223,6 @@ rem Initial delay to allow the PHP process to terminate.
 ping 127.0.0.1 -n 3 > nul
 
 BAT;
-        if ($updaterNeedsUpdate) {
-            $batchScriptContent .= "echo Updating the updater script...\r\n";
-            $batchScriptContent .= "set RETRY_COUNT=0\r\n";
-            $batchScriptContent .= ":retry_updater_move\r\n";
-            $batchScriptContent .= "move /Y \"$newUpdaterPath\" \"$targetDir\\update-magicserver.php\" > nul 2>&1\r\n";
-            $batchScriptContent .= "if %errorlevel% neq 0 (\r\n";
-            $batchScriptContent .= "  if %RETRY_COUNT% lss 5 (\r\n";
-            $batchScriptContent .= "    set /a RETRY_COUNT+=1\r\n";
-            $batchScriptContent .= "    echo Retrying file update... (%RETRY_COUNT%/5)\r\n";
-            $batchScriptContent .= "    ping 127.0.0.1 -n 2 > nul\r\n";
-            $batchScriptContent .= "    goto retry_updater_move\r\n";
-            $batchScriptContent .= "  ) else (\r\n";
-            $batchScriptContent .= "    echo ERROR: Failed to update the updater script after multiple retries. The file might be locked.\r\n";
-            $batchScriptContent .= "  )\r\n";
-            $batchScriptContent .= ")\r\n";
-        }
-
         if ($phpNeedsUpdate) {
             $batchScriptContent .= "echo Updating PHP runtime...\r\n";
             $batchScriptContent .= "robocopy \"$newPhpDir\" \"$targetDir\\php\" /E /IS /MOVE > NUL\r\n";
@@ -276,9 +251,9 @@ BAT;
     echo "   - Files/directories skipped: $skippedFiles\n";
 
     // 5. Success: Clean up backup
-    echo "Update successful. Removing temporary backup...\n";
+    echo "Update successful. Removing temporary files...\n";
     deleteFolder($currentBackupPath);
-    if (!$updaterNeedsUpdate && !$phpNeedsUpdate) { // Only clean up if no batch script is running
+    if (!$phpNeedsUpdate) { // Only clean up if no batch script is running
         deleteFolder($updateTempDir);
     }
     echo COLOR_GREEN . "✅ MagicServer has been updated to version " . COLOR_YELLOW . $tagName . COLOR_NC . ".\n";
@@ -314,9 +289,8 @@ BAT;
     if (file_exists($tempZip)) {
         echo "Cleaning up temporary files...\n";
         @unlink($tempZip);
-        if (!$updaterNeedsUpdate && !$phpNeedsUpdate) {
+        if (!$phpNeedsUpdate) {
             deleteFolder($updateTempDir); // Clean up only if the batch script is not responsible for it
         }
     }
 }
-
