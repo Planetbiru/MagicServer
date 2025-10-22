@@ -204,11 +204,23 @@ try {
     $zip->close();
 
     // Check if there is a PHP update
+    $updaterNeedsUpdate = false;
+    $phpNeedsUpdate = false;
+
+    $newUpdaterPath = $updateTempDir . '/' . $rootPrefix . 'update-magicserver.php';
+    if (file_exists($newUpdaterPath)) {
+        $updaterNeedsUpdate = true;
+        echo COLOR_YELLOW . "Updater script update detected.\n" . COLOR_NC;
+    }
+
     $newPhpDir = $updateTempDir . '/' . $rootPrefix . 'php';
     if (is_dir($newPhpDir)) {
-        echo COLOR_YELLOW . "PHP update detected. A separate script will complete the update.\n" . COLOR_NC;
+        $phpNeedsUpdate = true;
+        echo COLOR_YELLOW . "PHP runtime update detected.\n" . COLOR_NC;
+    }
 
-        $batchScriptPath = $targetDir . '/finalize-update.bat';
+    if ($updaterNeedsUpdate || $phpNeedsUpdate) {
+        echo COLOR_YELLOW . "A separate script will complete the final update steps.\n" . COLOR_NC;
         $batchScriptContent = <<<BAT
 @echo off
 echo Waiting for the updater to exit...
@@ -216,7 +228,19 @@ timeout /t 3 /nobreak > NUL
 
 echo Updating PHP runtime...
 rem Robocopy is more robust for copying directories
-robocopy "$newPhpDir" "$targetDir\\php" /E /IS /MOVE > NUL
+
+BAT;
+        if ($updaterNeedsUpdate) {
+            $batchScriptContent .= "echo Updating the updater script...\r\n";
+            $batchScriptContent .= "move /Y \"$newUpdaterPath\" \"$targetDir\\update-magicserver.php\" > NUL\r\n";
+        }
+
+        if ($phpNeedsUpdate) {
+            $batchScriptContent .= "echo Updating PHP runtime...\r\n";
+            $batchScriptContent .= "robocopy \"$newPhpDir\" \"$targetDir\\php\" /E /IS /MOVE > NUL\r\n";
+        }
+
+        $batchScriptContent .= <<<BAT
 
 echo Cleaning up temporary update files...
 if exist "$updateTempDir" (
@@ -227,7 +251,7 @@ echo Update finished. Deleting this script...
 (goto) 2>nul & del "%~f0"
 
 BAT;
-        file_put_contents($batchScriptPath, $batchScriptContent);
+        file_put_contents($targetDir . '/finalize-update.bat', $batchScriptContent);
 
         // Execute the batch script in a new, detached process
         pclose(popen("start /B \"\" \"$batchScriptPath\"", "r"));
@@ -240,7 +264,7 @@ BAT;
     // 5. Success: Clean up backup
     echo "Update successful. Removing temporary backup...\n";
     deleteFolder($currentBackupPath);
-    if (!is_dir($newPhpDir)) { // Only clean up if no batch script is running
+    if (!$updaterNeedsUpdate && !$phpNeedsUpdate) { // Only clean up if no batch script is running
         deleteFolder($updateTempDir);
     }
     echo COLOR_GREEN . "✅ MagicServer has been updated to version " . COLOR_YELLOW . $tagName . COLOR_NC . ".\n";
