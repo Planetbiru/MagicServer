@@ -55,8 +55,26 @@ if (!$releaseInfo || !isset($releaseInfo['zipball_url'])) {
     exit(1);
 }
 
-$zipUrl = $releaseInfo['zipball_url'];
 $tagName = $releaseInfo['tag_name'];
+
+// --- Find the correct download URL and size from assets ---
+$zipUrl = null;
+
+if (!empty($releaseInfo['assets'])) {
+    foreach ($releaseInfo['assets'] as $asset) {
+        // Find the first asset that is a zip file
+        if ($asset['content_type'] === 'application/zip' || pathinfo($asset['name'], PATHINFO_EXTENSION) === 'zip') {
+            $zipUrl = $asset['browser_download_url'];
+            break;
+        }
+    }
+}
+
+// Fallback to zipball_url if no suitable asset is found
+if (!$zipUrl) {
+    $zipUrl = $releaseInfo['zipball_url'];
+}
+
 echo "Found latest release: " . COLOR_YELLOW . $tagName . COLOR_NC . "\n";
 
 // Ask for user confirmation before proceeding
@@ -71,8 +89,11 @@ if (trim(strtolower($line)) !== 'y') {
 }
 
 // 2. Download the release ZIP file
-echo "Confirmation received. Starting download...\n";
-if (file_put_contents($tempZip, fetchStream($zipUrl)) === false) {
+echo "Confirmation received. Downloading update... (This may take a few moments)\n";
+
+$fileContent = fetchStream($zipUrl);
+
+if ($fileContent === false || file_put_contents($tempZip, $fileContent) === false) {
     echo COLOR_RED . "❌ Failed to download the update archive.\n" . COLOR_NC;
     @unlink($tempZip);
     exit(1);

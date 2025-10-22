@@ -174,22 +174,62 @@ function fetchJson($url)
     return json_decode($result, true);
 }
 
+function getGithubAssetSizes($owner, $repo, $tag = 'latest')
+{
+    $url = "https://api.github.com/repos/{$owner}/{$repo}/releases/" . $tag;
+
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_USERAGENT, 'PHP'); // GitHub API butuh user-agent
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    if (!$response) {
+        return false;
+    }
+
+    $data = json_decode($response, true);
+    if (!isset($data['assets'])) {
+        return false;
+    }
+
+    $sizes = array();
+    foreach ($data['assets'] as $asset) {
+        $sizes[] = array(
+            'name' => $asset['name'],
+            'size' => $asset['size'], // dalam byte
+            'download_url' => $asset['browser_download_url']
+        );
+    }
+
+    return $sizes;
+}
+
 /**
  * Fetch a binary stream from the given URL.
  *
  * @param string $url The URL to fetch.
+ * @param callable|null $progressCallback A callback function for download progress.
  * @return string|false The downloaded data, or false on failure.
  */
-function fetchStream($url)
+function fetchStream($url, $progressCallback = null)
 {
     $ch = curl_init($url);
     curl_setopt_array($ch, [
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_USERAGENT => 'MagicServerInstaller/1.0',
+        CURLOPT_NOPROGRESS => false, // Required to enable progress function
         CURLOPT_SSL_VERIFYPEER => false,
         CURLOPT_SSL_VERIFYHOST => false
     ]);
+
+    if ($progressCallback !== null && is_callable($progressCallback)) {
+        curl_setopt($ch, CURLOPT_PROGRESSFUNCTION, $progressCallback);
+    }
 
     $data = curl_exec($ch);
     curl_close($ch);
