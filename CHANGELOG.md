@@ -1,5 +1,7 @@
 # MagicServer Version 0.0.0
 
+Date: July 28th, 2025
+
 ## ✨ Features
 
 * **Redis Support**
@@ -39,6 +41,8 @@
 
 # MagicServer Version 0.0.1
 
+Date: October 1st, 2025
+
 ## ✨ Enhancements
 
 ### Index Page for `www` Directory
@@ -59,6 +63,8 @@ The `start.php` script has been updated to improve the user experience. Previous
 Now, it automatically opens the browser directly to `http://localhost/MagicAppBuilder/`, allowing you to get started with the main application immediately after server startup.
 
 # MagicServer Version 0.0.2
+
+Date: October 13rd, 2025
 
 ## 📖 Documentation Updates
 
@@ -93,3 +99,20 @@ To improve security, a new section in the `README.md` explains how to set a pass
 
 This helps users secure their Redis instance from unauthorized access.
 
+## MagicServer Version 0.0.3
+
+Date: October 23rd, 2025
+
+## ✨ Improvements
+
+### MagicServer Updater
+
+A new script, `update-magicserver.php`, has been introduced to streamline the update process. This robust command-line tool **automates the updating of MagicServer** to the latest version.
+
+Key features of the updater include:
+- **Automatic Updates**: Fetches and installs the latest release directly from the official **GitHub repository**.
+- **Service Management**: Automatically **stops all running services** (Apache, MariaDB, Redis) before the update and ensures none are running during the process.
+- **User Confirmation**: Displays the new version to be installed and **prompts for user confirmation** before proceeding.
+- **Safe Backup & Recovery**: Creates a **full backup of the existing installation** (excluding user data and configurations) before applying any changes. In case of an error, the updater will automatically **roll back to the previous version**, ensuring zero corruption.
+- **PHP Runtime Update**: Intelligently handles updates to the **PHP runtime itself** by using a separate helper script, avoiding file locking issues on Windows.
+- **Data Protection**: **Safeguards user data and configurations** by skipping sensitive directories and files (e.g., `www/`, `data/`, `mysql/`, `logs/`, and main configuration files like `httpd.conf` and `my.ini`) during the update process. Configuration template files (like `httpd-template.conf`) will still be updated to ensure you receive the latest default settings.
