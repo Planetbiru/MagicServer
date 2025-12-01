@@ -395,3 +395,7 @@ MagicServer includes:
 ---
 
 💡 Happy building with **MagicAppBuilder + Redis** on MagicServer! 🚀
+
+# Video
+
+https://www.youtube.com/watch?v=sF63LxBJPZI 
