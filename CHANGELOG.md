@@ -116,3 +116,30 @@ Key features of the updater include:
 - **Safe Backup & Recovery**: Creates a **full backup of the existing installation** (excluding user data and configurations) before applying any changes. In case of an error, the updater will automatically **roll back to the previous version**, ensuring zero corruption.
 - **PHP Runtime Update**: Intelligently handles updates to the **PHP runtime itself** by using a separate helper script, avoiding file locking issues on Windows.
 - **Data Protection**: **Safeguards user data and configurations** by skipping sensitive directories and files (e.g., `www/`, `data/`, `mysql/`, `logs/`, and main configuration files like `httpd.conf` and `my.ini`) during the update process. Configuration template files (like `httpd-template.conf`) will still be updated to ensure you receive the latest default settings.
+
+## MagicServer Version 1.0.0
+
+Date: October 30th, 2025
+
+## ✨ Features
+
+### PlanetbiruServer GUI Control Panel
+
+This version marks a major milestone with the introduction of **`PlanetbiruServer.exe`**, a comprehensive Graphical User Interface (GUI) designed to simplify server management on Windows.
+- **One-Click Service Control**: Easily start, stop, or restart Apache, MariaDB, and Redis from a centralized dashboard.
+- **Port Management**: Configure service ports (e.g., 80, 3306, 6379) directly within the app without editing configuration files manually.
+- **Integrated Database Tools**: Built-in functionality to change MariaDB root passwords, featuring a "Force Reset" mode for recovery.
+- **Task Scheduler**: A new interface to add, edit, or delete cron-like scheduled jobs and commands.
+- **System Tray Integration**: Ability to minimize the server manager to the system tray with a quick-access context menu.
+- **Auto-Start Options**: Settings to run the application on Windows startup and automatically start services.
+
+### Multi-language Localization
+
+To cater to a global audience, the GUI now supports full localization via the **`localization.ini`** file.
+- **Wide Language Support**: Includes translation for 11 languages: English, Indonesian, Malay, Javanese, Sundanese, Chinese (Simplified), Japanese, Korean, Hindi, Arabic, and Urdu.
+- **RTL Support**: Proper layout handling for Right-to-Left languages like Arabic and Urdu.
+- **User Customizable**: Users can easily add new languages or modify existing ones by updating the INI file.
+
+### 🔧 Other Improvements
+
+- Added `localization.ini` to the root directory to manage GUI display strings.
