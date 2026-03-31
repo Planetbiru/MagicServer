@@ -10,6 +10,7 @@
 * ✅ **Zero configuration**
 * ✅ **Auto-installs MagicAppBuilder**
 * ✅ **Rebuilds server configuration on each startup**
+* ✅ **PlanetbiruServer GUI** – Easy-to-use Windows interface to manage services
 * ✅ **Includes**:
   * **Apache** 2.4.64
   * **PHP** 8.4.10
@@ -37,6 +38,8 @@ MagicServer/
 │   ├── phpmyadmin/              # Pre-installed phpMyAdmin for managing MariaDB databases
 │   └── index.php                # Index page for the www directory
 ├── fn.php                       # Common/shared PHP utility functions
+├── PlanetbiruServer.exe         # GUI Control Panel to manage services (Apache, MariaDB, Redis)
+├── localization.ini             # Language localization file for Planetbiru Server GUI
 ├── install-magicappbuilder.php  # Installer script for MagicAppBuilder platform
 ├── install-mariadb.php          # Script to initialize MariaDB system tables (data directory)
 ├── set-mariadb-password.php     # Script to set or change the MariaDB root password
@@ -83,7 +86,16 @@ php\php.exe install-magicappbuilder.php
 
 ### 5. Start the Server
 
-Starts Apache, MariaDB, Redis, and rebuilds configs:
+You can start the server using the **PlanetbiruServer** GUI or the command line.
+
+#### A. Using PlanetbiruServer GUI (Recommended)
+Double-click **`PlanetbiruServer.exe`** in the root directory. This tool provides:
+* **One-Click Control**: Start, stop, or restart Apache, MariaDB, and Redis services.
+* **Real-time Monitoring**: View service status and logs directly within the application.
+* **System Tray Integration**: Minimize the server manager to the system tray for easy access.
+
+#### B. Using Command Line
+Alternatively, run the following to start all services and rebuild configurations:
 
 ```bat
 php\php.exe start.php
