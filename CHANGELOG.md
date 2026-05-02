@@ -153,6 +153,7 @@ Date: May 2nd, 2026
 ### Service Management
 
 * **Improved Monitoring**: When the user starts or stops a service (Apache, MariaDB, Redis), the control panel immediately updates the UI while still checking the port usage in the background. If the action fails, the control panel reverts the UI update accordingly. This eliminates unnecessary waiting time and enhances user convenience.
+* **MariaDB Installation**: Improved the MariaDB installation process to correctly handle cases where the data directory does not yet exist.
 
 ### PlanetbiruServer GUI
 
