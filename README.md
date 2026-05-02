@@ -4,6 +4,14 @@
 
 ---
 
+# Screenshot
+
+![MagicServer Screenshot](https://raw.githubusercontent.com/Planetbiru/MagicServer/refs/heads/main/screenshoot.png)
+
+## 🚀 Features
+
+---
+
 ## ✨ Features
 
 * ✅ **Portable** – no installation required
