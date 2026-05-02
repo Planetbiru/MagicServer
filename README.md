@@ -92,6 +92,7 @@ You can start the server using the **PlanetbiruServer** GUI or the command line.
 Double-click **`PlanetbiruServer.exe`** in the root directory. This tool provides:
 * **One-Click Control**: Start, stop, or restart Apache, MariaDB, and Redis services.
 * **Real-time Monitoring**: View service status and logs directly within the application.
+* **Redis Viewer**: Inspect Redis database keys and values in a safe, read-only environment.
 * **System Tray Integration**: Minimize the server manager to the system tray for easy access.
 
 #### B. Using Command Line

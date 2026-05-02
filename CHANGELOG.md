@@ -143,3 +143,18 @@ To cater to a global audience, the GUI now supports full localization via the **
 ### 🔧 Other Improvements
 
 - Added `localization.ini` to the root directory to manage GUI display strings.
+
+## MagicServer Version 1.0.1
+
+Date: May 2nd, 2026
+
+## 🛠 Bug Fixes & Improvements
+
+### Service Management
+
+* **Improved Monitoring**: When the user starts or stops a service (Apache, MariaDB, Redis), the control panel immediately updates the UI while still checking the port usage in the background. If the action fails, the control panel reverts the UI update accordingly. This eliminates unnecessary waiting time and enhances user convenience.
+
+### PlanetbiruServer GUI
+
+* **Redis Viewer (Read-only)**: Added a built-in Redis data inspector to view keys, types, values, and TTL without needing external tools.
+* **Log Viewer Fixes**: Resolved an issue where the log view would stop auto-scrolling when output was generated too rapidly.
