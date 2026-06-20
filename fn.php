@@ -22,7 +22,7 @@ function ensureDirectory($path)
 }
 
 /**
- * Replace the ${INSTALL_DIR} placeholder in a template file and
+ * Replace the {INSTALL_DIR} placeholder in a template file and
  * write the result to the given output path.
  *
  * @param string $templatePath The source template file.
@@ -32,7 +32,11 @@ function replaceAndWrite($templatePath, $outputPath)
 {
     $installDir = str_replace("\\", "/", __DIR__);
     $content = file_get_contents($templatePath);
-    $content = str_replace('${INSTALL_DIR}', $installDir, $content);
+    $content = str_replace('{INSTALL_DIR}', $installDir, $content);
+
+    $content = str_replace('{APACHE_PORT}', 80, $content);
+
+
     file_put_contents($outputPath, $content);
 }
 

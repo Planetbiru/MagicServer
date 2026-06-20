@@ -26,16 +26,16 @@ Date: July 28th, 2025
   The Redis PHP extension is bundled by default, enabling Redis-based features such as session storage and caching to work out of the box.
 
 * **Custom Redis Data Directory Support**
-  Redis is now configured to store its data (e.g., `dump.rdb`) in a dedicated directory under the install path: `${INSTALL_DIR}/data/redis`.
+  Redis is now configured to store its data (e.g., `dump.rdb`) in a dedicated directory under the install path: `{INSTALL_DIR}/data/redis`.
   This improves data separation and makes it easier to back up or relocate Redis data alongside other application components.
 
   The Redis configuration templates (`redis.windows-service-template.conf` and `redis.windows-template.conf`) have been updated to include:
 
   ```conf
-  dir "${INSTALL_DIR}/data/redis"
+  dir "{INSTALL_DIR}/data/redis"
   ```
 
-  During setup, the **installer and starter scripts** will automatically generate the actual Redis configuration files (`redis.windows-service.conf` and `redis.windows.conf`) by replacing `${INSTALL_DIR}` with the appropriate installation path.
+  During setup, the **installer and starter scripts** will automatically generate the actual Redis configuration files (`redis.windows-service.conf` and `redis.windows.conf`) by replacing `{INSTALL_DIR}` with the appropriate installation path.
   These scripts also ensure the target folder exists and is writable by the Redis service, ensuring seamless startup and persistence.
 
 
