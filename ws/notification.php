@@ -19,7 +19,6 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, [
 
 $res = curl_exec($ch);
 $err = curl_error($ch);
-curl_close($ch);
 
 if ($err) echo "CURL error: $err\n";
 else echo "Response: $res\n";

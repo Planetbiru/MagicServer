@@ -102,7 +102,7 @@ if (!file_exists($tempZip)) {
     echo COLOR_RED . "❌ Failed to save the update archive.\n" . COLOR_NC;
     exit(1);
 }
-
+$phpNeedsUpdate = false;
 $currentBackupPath = $backupDir . '/update-backup-' . date('Ymd-His');
 
 try {
