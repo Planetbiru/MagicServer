@@ -144,9 +144,9 @@ To cater to a global audience, the GUI now supports full localization via the **
 
 - Added `localization.ini` to the root directory to manage GUI display strings.
 
-## MagicServer Version 1.0.1
+## MagicServer Version 1.1.0
 
-Date: May 2nd, 2026
+Date: June 21st, 2026
 
 ## 🛠 Bug Fixes & Improvements
 
