@@ -49,7 +49,7 @@ function addPathToEnvironment($newPath)
 {
     $newPath = rtrim($newPath, DIRECTORY_SEPARATOR);
     $os = strtoupper(substr(PHP_OS, 0, 3));
-
+    $commandPrefix = '';
     if ($os === 'WIN') {
         // Windows system
         $currentPath = trim(shell_exec('echo %PATH%'));
@@ -165,7 +165,6 @@ function fetchJson($url)
     $result = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     $err = curl_error($ch);
-    curl_close($ch);
 
     if ($httpCode !== 200 || !$result) {
         echo "❌ Failed to fetch JSON. HTTP Code: $httpCode\n";
@@ -178,6 +177,23 @@ function fetchJson($url)
     return json_decode($result, true);
 }
 
+/**
+ * Retrieve the sizes of release assets from a GitHub repository.
+ *
+ * This function queries the GitHub API for a specific repository release
+ * and returns an array of asset information including name, size (in bytes),
+ * and download URL.
+ *
+ * @param string $owner GitHub repository owner (username or organization).
+ * @param string $repo  GitHub repository name.
+ * @param string $tag   Release tag (default: 'latest').
+ *
+ * @return array|false  Returns an array of assets with keys:
+ *                      - name (string): Asset file name
+ *                      - size (int): Asset size in bytes
+ *                      - download_url (string): Direct download URL
+ *                      Returns false if the request fails or no assets are found.
+ */
 function getGithubAssetSizes($owner, $repo, $tag = 'latest')
 {
     $url = "https://api.github.com/repos/{$owner}/{$repo}/releases/" . $tag;
@@ -189,8 +205,6 @@ function getGithubAssetSizes($owner, $repo, $tag = 'latest')
     curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 
     $response = curl_exec($ch);
-    curl_close($ch);
-
     if (!$response) {
         return false;
     }
@@ -235,9 +249,7 @@ function fetchStream($url, $progressCallback = null)
         curl_setopt($ch, CURLOPT_PROGRESSFUNCTION, $progressCallback);
     }
 
-    $data = curl_exec($ch);
-    curl_close($ch);
-    return $data;
+    return curl_exec($ch);
 }
 
 /**
@@ -275,7 +287,6 @@ function downloadFileWithProgress($url, $destination)
     });
 
     $result = curl_exec($ch);
-    curl_close($ch);
     fclose($fileHandle);
 
     echo "\n"; // New line after progress bar
