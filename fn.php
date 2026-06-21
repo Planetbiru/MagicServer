@@ -49,7 +49,7 @@ function addPathToEnvironment($newPath)
 {
     $newPath = rtrim($newPath, DIRECTORY_SEPARATOR);
     $os = strtoupper(substr(PHP_OS, 0, 3));
-
+    $commandPrefix = '';
     if ($os === 'WIN') {
         // Windows system
         $currentPath = trim(shell_exec('echo %PATH%'));
@@ -165,7 +165,6 @@ function fetchJson($url)
     $result = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     $err = curl_error($ch);
-    curl_close($ch);
 
     if ($httpCode !== 200 || !$result) {
         echo "❌ Failed to fetch JSON. HTTP Code: $httpCode\n";
@@ -189,8 +188,6 @@ function getGithubAssetSizes($owner, $repo, $tag = 'latest')
     curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 
     $response = curl_exec($ch);
-    curl_close($ch);
-
     if (!$response) {
         return false;
     }
@@ -235,9 +232,7 @@ function fetchStream($url, $progressCallback = null)
         curl_setopt($ch, CURLOPT_PROGRESSFUNCTION, $progressCallback);
     }
 
-    $data = curl_exec($ch);
-    curl_close($ch);
-    return $data;
+    return curl_exec($ch);
 }
 
 /**
@@ -275,7 +270,6 @@ function downloadFileWithProgress($url, $destination)
     });
 
     $result = curl_exec($ch);
-    curl_close($ch);
     fclose($fileHandle);
 
     echo "\n"; // New line after progress bar
