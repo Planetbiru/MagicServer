@@ -3,6 +3,25 @@
 require_once __DIR__ . "/fn.php";
 require_once __DIR__ . "/stop.php";
 
+/**
+ * Check if a local port is currently in use.
+ *
+ * Attempts to open a socket connection to 127.0.0.1 on the given port.
+ * If the connection succeeds, the port is considered occupied.
+ *
+ * @param int $port Port number to check.
+ *
+ * @return bool Returns true if the port is in use, false otherwise.
+ */
+function isPortInUse($port) {
+    $conn = @fsockopen("127.0.0.1", $port);
+    if ($conn) {
+        fclose($conn);
+        return true;
+    }
+    return false;
+}
+
 $phpPath     = __DIR__ . '/php';
 $phpExtPath  = __DIR__ . '/php/ext';
 $currentPath = getenv('PATH');
@@ -59,16 +78,6 @@ if (!file_exists($apacheBin)) {
 if (!file_exists($mysqlBin)) {
     echo "[ERROR] MySQL/MariaDB not found!\n";
     exit(1);
-}
-
-// Cek port
-function isPortInUse($port) {
-    $conn = @fsockopen("127.0.0.1", $port);
-    if ($conn) {
-        fclose($conn);
-        return true;
-    }
-    return false;
 }
 
 if (isPortInUse(80)) {
