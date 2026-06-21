@@ -177,6 +177,23 @@ function fetchJson($url)
     return json_decode($result, true);
 }
 
+/**
+ * Retrieve the sizes of release assets from a GitHub repository.
+ *
+ * This function queries the GitHub API for a specific repository release
+ * and returns an array of asset information including name, size (in bytes),
+ * and download URL.
+ *
+ * @param string $owner GitHub repository owner (username or organization).
+ * @param string $repo  GitHub repository name.
+ * @param string $tag   Release tag (default: 'latest').
+ *
+ * @return array|false  Returns an array of assets with keys:
+ *                      - name (string): Asset file name
+ *                      - size (int): Asset size in bytes
+ *                      - download_url (string): Direct download URL
+ *                      Returns false if the request fails or no assets are found.
+ */
 function getGithubAssetSizes($owner, $repo, $tag = 'latest')
 {
     $url = "https://api.github.com/repos/{$owner}/{$repo}/releases/" . $tag;
