@@ -40,9 +40,6 @@ if (!in_array($phpExtPath, $paths)) {
 putenv('PATH=' . implode(PATH_SEPARATOR, $paths));
 
 
-$newPathToAdd = __DIR__ . "/php/bin";
-$newPathToAdd = __DIR__ . "/mysql/bin";
-
 // Ensure necessary directories
 ensureDirectory(__DIR__ . "/www");
 ensureDirectory(__DIR__ . "/tmp");

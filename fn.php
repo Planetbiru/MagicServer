@@ -15,9 +15,9 @@ const COLOR_NC    = "\033[0m"; // No Color
 function ensureDirectory($path)
 {
     if (!file_exists($path)) {
-        mkdir($path, 0777, true);
+        @mkdir($path, 0777, true);
     } else {
-        chmod($path, 0777);
+        @chmod($path, 0777);
     }
 }
 
@@ -31,13 +31,12 @@ function ensureDirectory($path)
 function replaceAndWrite($templatePath, $outputPath)
 {
     $installDir = str_replace("\\", "/", __DIR__);
-    $content = file_get_contents($templatePath);
+    $content = @file_get_contents($templatePath);
     $content = str_replace('{INSTALL_DIR}', $installDir, $content);
 
     $content = str_replace('{APACHE_PORT}', 80, $content);
 
-
-    file_put_contents($outputPath, $content);
+    @file_put_contents($outputPath, $content);
 }
 
 /**
@@ -98,17 +97,17 @@ function addPathToEnvironment($newPath)
 function stopProcessByName($name)
 {
     echo "Stopping $name...\n";
-    $output = [];
-    exec("taskkill /F /IM $name", $output);
-    exec("tasklist /FI \"IMAGENAME eq $name\" 2>NUL", $output);
+    // Check if the process is running before attempting to kill it
+    $tasklistOutput = [];
+    @exec("tasklist /FI \"IMAGENAME eq $name\" 2>NUL", $tasklistOutput);
 
-    if (count($output) <= 1) {
+    if (count($tasklistOutput) <= 1) { // tasklist returns header + process line if running
         echo "  [INFO] $name is not running.\n";
         return;
     }
 
     // Kill all processes with this name
-    exec("taskkill /F /IM $name", $result, $exitCode);
+    @exec("taskkill /F /IM $name", $output, $exitCode);
 
     if ($exitCode === 0) {
         echo "  [OK] $name stopped successfully.\n";
@@ -131,15 +130,15 @@ function deleteFolder($path)
     $items = new RecursiveIteratorIterator(
         new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS),
         RecursiveIteratorIterator::CHILD_FIRST
-    );
+        );
 
     foreach ($items as $item) {
         $item->isDir()
-            ? rmdir($item->getRealPath())
-            : unlink($item->getRealPath());
+            ? @rmdir($item->getRealPath())
+            : @unlink($item->getRealPath());
     }
 
-    rmdir($path);
+    @rmdir($path);
 }
 
 /**
