@@ -159,3 +159,13 @@ Date: June 21st, 2026
 
 * **Redis Viewer (Read-only)**: Added a built-in Redis data inspector to view keys, types, values, and TTL without needing external tools.
 * **Log Viewer Fixes**: Resolved an issue where the log view would stop auto-scrolling when output was generated too rapidly.
+
+
+## MagicServer Version 1.1.1
+
+Date: July 5th, 2026
+
+### ✨ Enhancements
+
+- **Apache Configuration**: Added `LoadModule headers_module modules/mod_headers.so` to the Apache configuration template.
+- **Dynamic Port Configuration**: Port settings are now retrieved from the `setting.db` database, allowing for more flexible configuration.
