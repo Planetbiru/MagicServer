@@ -22,6 +22,39 @@ function isPortInUse($port) {
     return false;
 }
 
+// Default ports
+$apachePort = 80;
+$mysqlPort = 3306;
+$redisPort = 6379;
+
+$dbPath = __DIR__ . '/data/setting.db';
+
+if (file_exists($dbPath) && extension_loaded('pdo_sqlite')) {
+    try {
+        $pdo = new PDO('sqlite:' . $dbPath);
+        $stmt = $pdo->query("SELECT name, value FROM settings WHERE name IN ('apache_port', 'mysql_port', 'redis_port')");
+        $settings = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
+
+        if (!empty($settings)) {
+            echo "Reading configuration from setting.db...\n";
+            $apachePort = isset($settings['apache_port']) ? (int)$settings['apache_port'] : $apachePort;
+            $mysqlPort = isset($settings['mysql_port']) ? (int)$settings['mysql_port'] : $mysqlPort;
+            $redisPort = isset($settings['redis_port']) ? (int)$settings['redis_port'] : $redisPort;
+        }
+    } catch (PDOException $e) {
+        echo "[WARNING] Could not read from setting.db: " . $e->getMessage() . "\n";
+        echo "Falling back to default ports.\n";
+    }
+}
+
+// Prepare replacements for config files
+$replacements = [
+    '{APACHE_PORT}' => $apachePort,
+    '{MYSQL_PORT}' => $mysqlPort,
+    '{REDIS_PORT}' => $redisPort,
+];
+
+
 $phpPath     = __DIR__ . '/php';
 $phpExtPath  = __DIR__ . '/php/ext';
 $currentPath = getenv('PATH');
@@ -52,11 +85,11 @@ ensureDirectory(__DIR__ . "/apache/logs");
 
 
 // Replace config templates
-replaceAndWrite(__DIR__ . "/config/httpd-template.conf", __DIR__ . "/config/httpd.conf");
-replaceAndWrite(__DIR__ . "/config/php-template.ini", __DIR__ . "/php/php.ini");
-replaceAndWrite(__DIR__ . "/config/my-template.ini", __DIR__ . "/config/my.ini");
-replaceAndWrite(__DIR__ . "/config/redis.windows-template.conf", __DIR__ . "/redis/redis.windows.conf");
-replaceAndWrite(__DIR__ . "/config/redis.windows-service-template.conf", __DIR__ . "/redis/redis.windows-service.conf");
+replaceAndWrite(__DIR__ . "/config/httpd-template.conf", __DIR__ . "/config/httpd.conf", $replacements);
+replaceAndWrite(__DIR__ . "/config/php-template.ini", __DIR__ . "/php/php.ini", $replacements);
+replaceAndWrite(__DIR__ . "/config/my-template.ini", __DIR__ . "/config/my.ini", $replacements);
+replaceAndWrite(__DIR__ . "/config/redis.windows-template.conf", __DIR__ . "/redis/redis.windows.conf", $replacements);
+replaceAndWrite(__DIR__ . "/config/redis.windows-service-template.conf", __DIR__ . "/redis/redis.windows-service.conf", $replacements);
 
 
 echo "=== MagicAppBuilder Portable Installer ===\n";
@@ -77,12 +110,16 @@ if (!file_exists($mysqlBin)) {
     exit(1);
 }
 
-if (isPortInUse(80)) {
-    echo "[WARNING] Port 80 already in use.\n";
+if (isPortInUse($apachePort)) {
+    echo "[WARNING] Port $apachePort (Apache) already in use.\n";
 }
 
-if (isPortInUse(3306)) {
-    echo "[WARNING] Port 3306 already in use.\n";
+if (isPortInUse($mysqlPort)) {
+    echo "[WARNING] Port $mysqlPort (MariaDB) already in use.\n";
+}
+
+if (isPortInUse($redisPort)) {
+    echo "[WARNING] Port $redisPort (Redis) already in use.\n";
 }
 
 
@@ -94,7 +131,7 @@ pclose(popen($cmd1, "r"));
 
 // Jalankan Redis
 echo "Starting Redis...\n";
-$cmd2 = "start /B \"\" \"" . $redisBin . "\""; // NOSONAR
+$cmd2 = "start /B \"\" \"" . $redisBin . "\" \"" . __DIR__ . "/redis/redis.windows.conf\""; // NOSONAR
 pclose(popen($cmd2, "r"));
 
 // Jalankan Apache
@@ -102,6 +139,15 @@ echo "Starting Apache...\n";
 $cmd3 = "start /B \"\" \"" . $apacheBin . "\" -f \"" . __DIR__ . "/config/httpd.conf\""; // NOSONAR
 pclose(popen($cmd3, "r"));
 
-echo "DONE. Access your app at http://localhost/MagicAppBuilder/\n";
-$cmd4 = "start http://localhost/MagicAppBuilder/"; // NOSONAR
+if($apachePort != 80)
+{
+    $url = "http://localhost:$apachePort/MagicAppBuilder/";
+}
+else
+{
+    $url = "http://localhost/MagicAppBuilder/";
+}
+
+echo "DONE. Access your app at $url\n";
+$cmd4 = "start $url"; // NOSONAR
 pclose(popen($cmd4, "r"));
