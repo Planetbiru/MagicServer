@@ -28,14 +28,24 @@ function ensureDirectory($path)
  * @param string $templatePath The source template file.
  * @param string $outputPath   The destination output file.
  */
-function replaceAndWrite($templatePath, $outputPath)
+function replaceAndWrite($templatePath, $outputPath, $replacements = [])
 {
     $installDir = str_replace("\\", "/", __DIR__);
     $content = @file_get_contents($templatePath);
-    $content = str_replace('{INSTALL_DIR}', $installDir, $content);
 
-    $content = str_replace('{APACHE_PORT}', 80, $content);
+    // Default replacements that can be overridden
+    $allReplacements = array_merge(
+        [
+            '{INSTALL_DIR}' => $installDir,
+            '{APACHE_PORT}' => 80,
+            '{MYSQL_PORT}' => 3306,
+            '{REDIS_PORT}' => 6379,
+        ],
+        $replacements
+    );
 
+    $content = str_replace(array_keys($allReplacements), array_values($allReplacements), $content);
+    
     @file_put_contents($outputPath, $content);
 }
 
